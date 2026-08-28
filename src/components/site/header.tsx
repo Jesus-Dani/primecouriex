@@ -14,12 +14,15 @@ const NAV_LINKS = [
 
 export function SiteHeader() {
   return (
-    <header className="border-b border-border bg-background">
+    <header className="border-border bg-background border-b">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
-        <Link href="/" className="font-[family-name:var(--font-heading)] text-lg font-bold text-brand-900 dark:text-brand-50">
+        <Link
+          href="/"
+          className="text-brand-text font-[family-name:var(--font-heading)] text-lg font-bold"
+        >
           Prime Couriex Express
         </Link>
-        <nav className="hidden flex-wrap items-center gap-x-5 gap-y-2 text-sm font-medium text-muted-foreground lg:flex">
+        <nav className="text-muted-foreground hidden flex-wrap items-center gap-x-5 gap-y-2 text-sm font-medium lg:flex">
           {NAV_LINKS.map((link) => (
             <Link key={link.href} href={link.href} className="hover:text-foreground">
               {link.label}
@@ -30,7 +33,7 @@ export function SiteHeader() {
           <ThemeToggle />
           <Link
             href="/booking"
-            className="rounded-[var(--radius-control)] bg-brand-900 px-5 py-2 text-sm font-semibold text-white hover:bg-brand-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring dark:bg-brand-500 dark:hover:bg-brand-400"
+            className="bg-primary hover:bg-primary-hover text-primary-foreground focus-visible:ring-focus-ring rounded-[var(--radius-control)] px-5 py-2 text-sm font-semibold focus-visible:ring-2 focus-visible:outline-none"
           >
             Book Now
           </Link>

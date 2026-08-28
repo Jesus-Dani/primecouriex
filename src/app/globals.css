@@ -87,6 +87,18 @@
   --muted-foreground: var(--gray-700);
   --placeholder-foreground: var(--gray-500);
   --focus-ring: var(--brand-500);
+
+  /* Primary action tokens — distinct from --background in both modes, unlike
+     --brand-900 (light-mode primary) which becomes the dark-mode page
+     background and would make bg-brand-900 buttons vanish in dark mode. */
+  --primary: var(--brand-900);
+  --primary-hover: var(--brand-800);
+  --primary-foreground: #ffffff;
+
+  /* Brand-tinted text (wordmark, secondary/ghost button label) — readable on
+     --background in both modes, unlike a raw --brand-900/50 pair would be
+     without duplicating the dark:-class-vs-system-preference split below. */
+  --brand-text: var(--brand-900);
 }
 
 /* Dark mode via system preference, unless a manual .light override is set */
@@ -100,6 +112,11 @@
     --muted-foreground: var(--brand-200);
     --placeholder-foreground: var(--brand-300);
     --focus-ring: var(--brand-400);
+
+    --primary: var(--brand-500);
+    --primary-hover: var(--brand-400);
+    --primary-foreground: #ffffff;
+    --brand-text: var(--brand-50);
 
     /* Dark-surface semantic accents — brief §5: use mid-scale text colors
        directly as accents, not the pale light-mode background tints. */
@@ -122,6 +139,10 @@
   --muted-foreground: var(--brand-200);
   --placeholder-foreground: var(--brand-300);
   --focus-ring: var(--brand-400);
+
+  --primary: var(--brand-500);
+  --primary-hover: var(--brand-400);
+  --primary-foreground: #ffffff;
 
   --success-text: #4ade80;
   --success-bg: #14532d;
@@ -165,6 +186,11 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-placeholder-foreground: var(--placeholder-foreground);
   --color-focus-ring: var(--focus-ring);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-brand-text: var(--brand-text);
 
   --color-success: var(--success-text);
   --color-success-bg: var(--success-bg);

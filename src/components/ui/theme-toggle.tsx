@@ -1,8 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 type Theme = "light" | "dark" | "system";
+
+function readStoredTheme(): Theme {
+  if (typeof window === "undefined") return "system";
+  try {
+    const stored = localStorage.getItem("theme");
+    if (stored === "dark" || stored === "light") return stored;
+  } catch {
+    // localStorage unavailable (e.g. private browsing) — fall back to system
+  }
+  return "system";
+}
 
 function applyTheme(theme: Theme) {
   const root = document.documentElement;
@@ -17,16 +28,11 @@ function applyTheme(theme: Theme) {
 }
 
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme>("system");
-
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem("theme");
-      if (stored === "dark" || stored === "light") setTheme(stored);
-    } catch {
-      // ignore
-    }
-  }, []);
+  // Lazy initializer reads the real client-side preference on first client
+  // render, avoiding an effect-driven extra render pass. The inline script
+  // in layout.tsx already applies the class before paint, so this is purely
+  // about keeping this button's own label in sync.
+  const [theme, setTheme] = useState<Theme>(readStoredTheme);
 
   function cycle() {
     const next: Theme = theme === "light" ? "dark" : theme === "dark" ? "system" : "light";
@@ -38,10 +44,13 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={cycle}
-      className="rounded-[var(--radius-control)] border border-border px-3 py-1.5 text-sm font-medium text-foreground hover:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring"
+      className="border-border text-foreground hover:bg-surface focus-visible:ring-focus-ring rounded-[var(--radius-control)] border px-3 py-1.5 text-sm font-medium focus-visible:ring-2 focus-visible:outline-none"
       aria-label="Toggle color theme"
     >
-      Theme: {theme}
+      {/* First client render may briefly differ from the server-rendered
+          "system" default if a theme was previously stored — expected and
+          harmless for this non-critical label. */}
+      <span suppressHydrationWarning>Theme: {theme}</span>
     </button>
   );
 }
