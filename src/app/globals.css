@@ -1,0 +1,186 @@
+@import "tailwindcss";
+
+/* Enables class-based dark mode (`.dark` on <html>) alongside system preference. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  /* ==========================================================================
+     Brand color scales — UI_DESIGN_BRIEF.md §2.2
+     Three candidate directions, each a full 10-step scale from the same
+     anchor hue family. Only the "Active brand scale" block below is consumed
+     by components (via the --brand-* / --color-brand-* tokens) — switching
+     the client's final choice is a matter of repointing that block to a
+     different lettered scale, never touching component code.
+     ========================================================================== */
+
+  /* Direction A — Deep Navy (anchored on existing #12234C) — RECOMMENDED, DEFAULT */
+  --brand-a-50: #eff2fb;
+  --brand-a-100: #dee5f7;
+  --brand-a-200: #b9c9ee;
+  --brand-a-300: #87a2e3;
+  --brand-a-400: #5279d6;
+  --brand-a-500: #2d57be;
+  --brand-a-600: #234494;
+  --brand-a-700: #1b3573;
+  --brand-a-800: #152857;
+  --brand-a-900: #12234c;
+
+  /* Direction B — Royal / Cobalt Blue (more vivid, modern) */
+  --brand-b-50: #ecf0fd;
+  --brand-b-100: #dae0fc;
+  --brand-b-200: #b0bdf8;
+  --brand-b-300: #778ff3;
+  --brand-b-400: #3b5ded;
+  --brand-b-500: #1439d7;
+  --brand-b-600: #0f2da8;
+  --brand-b-700: #0c2383;
+  --brand-b-800: #091a62;
+  --brand-b-900: #061346;
+
+  /* Direction C — Slate / Steel Blue (muted, calm) */
+  --brand-c-50: #f1f4f8;
+  --brand-c-100: #e4e9f2;
+  --brand-c-200: #c5d0e2;
+  --brand-c-300: #9caece;
+  --brand-c-400: #708ab8;
+  --brand-c-500: #4d6a9d;
+  --brand-c-600: #3d537b;
+  --brand-c-700: #2f4160;
+  --brand-c-800: #233048;
+  --brand-c-900: #192333;
+
+  /* Active brand scale — DEFAULT: Direction A. To trial B or C, repoint this
+     block only (e.g. var(--brand-b-50) ... var(--brand-b-900)). */
+  --brand-50: var(--brand-a-50);
+  --brand-100: var(--brand-a-100);
+  --brand-200: var(--brand-a-200);
+  --brand-300: var(--brand-a-300);
+  --brand-400: var(--brand-a-400);
+  --brand-500: var(--brand-a-500);
+  --brand-600: var(--brand-a-600);
+  --brand-700: var(--brand-a-700);
+  --brand-800: var(--brand-a-800);
+  --brand-900: var(--brand-a-900);
+
+  /* Supporting neutrals — UI_DESIGN_BRIEF.md §2.4 */
+  --gray-50: #f7f8fa;
+  --gray-100: #eef0f3;
+  --gray-300: #d3d8df;
+  --gray-500: #8a94a3;
+  --gray-700: #4b5563;
+  --gray-900: #1a1d23;
+
+  /* Semantic / functional colors — UI_DESIGN_BRIEF.md §2.5 (light mode) */
+  --success-text: #15803d;
+  --success-bg: #eaf7ee;
+  --error-text: #b91c1c;
+  --error-bg: #fdecec;
+  --warning-text: #b45309;
+  --warning-bg: #fef3e2;
+
+  /* Surface roles — light mode (default) */
+  --background: #ffffff;
+  --foreground: var(--gray-900);
+  --surface: var(--gray-50);
+  --card: #ffffff;
+  --border: var(--gray-300);
+  --muted-foreground: var(--gray-700);
+  --placeholder-foreground: var(--gray-500);
+  --focus-ring: var(--brand-500);
+}
+
+/* Dark mode via system preference, unless a manual .light override is set */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --background: var(--brand-900);
+    --foreground: var(--brand-50);
+    --surface: var(--brand-800);
+    --card: var(--brand-800);
+    --border: var(--brand-700);
+    --muted-foreground: var(--brand-200);
+    --placeholder-foreground: var(--brand-300);
+    --focus-ring: var(--brand-400);
+
+    /* Dark-surface semantic accents — brief §5: use mid-scale text colors
+       directly as accents, not the pale light-mode background tints. */
+    --success-text: #4ade80;
+    --success-bg: #14532d;
+    --error-text: #f87171;
+    --error-bg: #7f1d1d;
+    --warning-text: #fbbf24;
+    --warning-bg: #78350f;
+  }
+}
+
+/* Dark mode via explicit manual toggle (wins over system preference) */
+:root.dark {
+  --background: var(--brand-900);
+  --foreground: var(--brand-50);
+  --surface: var(--brand-800);
+  --card: var(--brand-800);
+  --border: var(--brand-700);
+  --muted-foreground: var(--brand-200);
+  --placeholder-foreground: var(--brand-300);
+  --focus-ring: var(--brand-400);
+
+  --success-text: #4ade80;
+  --success-bg: #14532d;
+  --error-text: #f87171;
+  --error-bg: #7f1d1d;
+  --warning-text: #fbbf24;
+  --warning-bg: #78350f;
+}
+
+@theme inline {
+  /* Typography — UI_DESIGN_BRIEF.md §3: Manrope for headings, Inter for body,
+     one consistent sans-serif system (no serif). JetBrains Mono reserved for
+     tabular/data contexts (prices, reference numbers, admin tables). */
+  --font-heading: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, "SFMono-Regular", monospace;
+
+  --color-brand-50: var(--brand-50);
+  --color-brand-100: var(--brand-100);
+  --color-brand-200: var(--brand-200);
+  --color-brand-300: var(--brand-300);
+  --color-brand-400: var(--brand-400);
+  --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600);
+  --color-brand-700: var(--brand-700);
+  --color-brand-800: var(--brand-800);
+  --color-brand-900: var(--brand-900);
+
+  --color-gray-50: var(--gray-50);
+  --color-gray-100: var(--gray-100);
+  --color-gray-300: var(--gray-300);
+  --color-gray-500: var(--gray-500);
+  --color-gray-700: var(--gray-700);
+  --color-gray-900: var(--gray-900);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-placeholder-foreground: var(--placeholder-foreground);
+  --color-focus-ring: var(--focus-ring);
+
+  --color-success: var(--success-text);
+  --color-success-bg: var(--success-bg);
+  --color-error: var(--error-text);
+  --color-error-bg: var(--error-bg);
+  --color-warning: var(--warning-text);
+  --color-warning-bg: var(--warning-bg);
+
+  /* Shape & elevation — UI_DESIGN_BRIEF.md §4 */
+  --radius-control: 0.5rem; /* 8px — buttons, inputs */
+  --radius-card: 0.75rem; /* 12px — cards, modals */
+  --shadow-card: 0 1px 3px rgba(18, 35, 76, 0.08);
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+}
