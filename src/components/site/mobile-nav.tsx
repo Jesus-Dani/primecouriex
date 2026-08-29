@@ -10,7 +10,7 @@ export function MobileNav() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="lg:hidden">
+    <div className="xl:hidden">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -44,7 +44,10 @@ export function MobileNav() {
               </li>
             ))}
           </ul>
-          <div className="border-border mt-3 border-t pt-3">
+          <div className="border-border mt-3 flex items-center justify-between border-t pt-3">
+            <a href="tel:+2349070535182" className="text-foreground text-sm font-medium">
+              +234 907 053 5182
+            </a>
             <ThemeToggle />
           </div>
         </nav>

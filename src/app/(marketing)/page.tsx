@@ -1,101 +1,77 @@
 import Link from "next/link";
-import {
-  Building2,
-  Clock3,
-  FileText,
-  Gavel,
-  MapPinned,
-  PackageCheck,
-  Search,
-  ShieldCheck,
-} from "lucide-react";
 import { HeroGraphic } from "@/components/site/hero-graphic";
+import { PlaceholderBlock } from "@/components/site/placeholder-block";
 
-const TRUST_STRIP = [
+const FLAGSHIP_SERVICES = [
   {
-    icon: ShieldCheck,
-    label: "Confidential",
-    detail: "Legal and corporate documents handled discreetly, start to finish.",
-  },
-  {
-    icon: Clock3,
-    label: "Reviewed fast",
-    detail: "Every booking is reviewed and confirmed within an hour.",
-  },
-  {
-    icon: MapPinned,
-    label: "FCT-wide",
-    detail: "Every district across the Federal Capital Territory, Abuja.",
-  },
-];
-
-const WHY_CHOOSE_US = [
-  {
-    icon: MapPinned,
-    title: "FCT-wide coverage",
-    detail: "Every district across the Federal Capital Territory, Abuja.",
-  },
-  {
-    icon: Clock3,
-    title: "Reviewed within 1 hour",
-    detail: "A staff member confirms every booking fast — not next-day.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Confidential handling",
-    detail: "Court documents and corporate records handled discreetly.",
-  },
-  {
-    icon: Search,
-    title: "Upfront, transparent pricing",
-    detail: "Real driving-distance pricing, shown before you book.",
-  },
-];
-
-const SERVICES = [
-  {
-    icon: Gavel,
     title: "Process Serving & Legal Documents",
     detail:
-      "Court processes, demand letters, and statutory notices, with court/case details captured at booking.",
+      "Service of court processes, demand letters, and statutory notices, with court name, suit number, and case details captured at booking — nothing operationally useful is lost moving online.",
+    href: "/services",
   },
   {
-    icon: Building2,
+    title: "Corporate & Institutional Courier",
+    detail:
+      "General courier services for corporate and institutional clients, booked the same way as any other service — no account or portal required in this version of the site.",
+    href: "/services",
+  },
+];
+
+const OTHER_SERVICES = [
+  {
     title: "Registry Liaison & Document Retrieval",
     detail:
       "Coordination and retrieval of documents from government and registry offices on your behalf.",
   },
   {
-    icon: PackageCheck,
-    title: "Corporate & Institutional Courier",
-    detail: "General courier services for corporate and institutional clients across Abuja.",
-  },
-  {
-    icon: Clock3,
     title: "Same-day Document Delivery",
     detail:
       "Standard courier delivery of documents and packages within the FCT, same-day turnaround.",
   },
   {
-    icon: FileText,
     title: "Filing & Compliance",
     detail: "Assistance with filing and compliance-related document delivery.",
   },
 ];
 
+const WHO_WE_SERVE = [
+  {
+    title: "Individual & legal clients",
+    detail:
+      "Book process serving quickly, see the cost upfront, and know exactly what our confidentiality and liability terms cover.",
+  },
+  {
+    title: "Law firms & practitioners",
+    detail:
+      "Fast, repeat bookings ahead of court deadlines, with the full court and case metadata your process requires.",
+  },
+  {
+    title: "Corporate & institutional clients",
+    detail:
+      "Book courier and registry liaison services under your organisation's name, no account required.",
+  },
+];
+
+const FACTS = [
+  { value: "₦540/km", label: "Transparent, distance-based pricing" },
+  { value: "1 hour", label: "Standard booking review time" },
+  { value: "5", label: "Service lines, one booking flow" },
+  { value: "FCT", label: "Full coverage across Abuja" },
+];
+
 const HOW_IT_WORKS = [
   {
-    step: "1",
+    step: "01",
     title: "Book",
     detail: "Tell us what needs to move and where. See an instant price estimate as you go.",
   },
   {
-    step: "2",
+    step: "02",
     title: "We review",
     detail: "Our team confirms your booking — within 1 hour, as standard.",
   },
   {
-    step: "3",
+    step: "03",
     title: "Delivered",
     detail: "Check progress any time with your reference number, until it's done.",
   },
@@ -104,24 +80,21 @@ const HOW_IT_WORKS = [
 export default function HomePage() {
   return (
     <>
-      <section className="mx-auto max-w-6xl px-4 pt-12 pb-16 sm:px-6 sm:pt-16">
-        <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
+      <section className="mx-auto max-w-7xl px-4 pt-14 pb-16 sm:px-6 sm:pt-20">
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <div>
-            <p className="text-brand-text font-semibold tracking-wide uppercase">
-              Legal courier &amp; process serving — FCT, Abuja
-            </p>
-            <h1 className="text-foreground mt-3 font-[family-name:var(--font-heading)] text-4xl font-bold sm:text-5xl">
-              We deliver documents. You get results.
+            <h1 className="text-foreground font-[family-name:var(--font-heading)] text-4xl font-bold sm:text-5xl">
+              We deliver documents. <span className="text-brand-text">You get results.</span>
             </h1>
-            <p className="text-muted-foreground mt-4 max-w-xl text-lg">
+            <p className="text-muted-foreground mt-5 max-w-xl text-lg">
               Reliable, discreet, time-sensitive delivery of legal and corporate documents across
-              the Federal Capital Territory. Reviewed within 1 hour, priced by real driving
+              the Federal Capital Territory — reviewed within 1 hour, priced by real driving
               distance.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
                 href="/booking"
-                className="bg-primary hover:bg-primary-hover text-primary-foreground focus-visible:ring-focus-ring rounded-[var(--radius-control)] px-6 py-3 font-semibold focus-visible:ring-2 focus-visible:outline-none"
+                className="bg-primary hover:bg-primary-hover text-primary-foreground rounded-[var(--radius-control)] px-6 py-3 font-semibold"
               >
                 Book a Service
               </Link>
@@ -132,110 +105,112 @@ export default function HomePage() {
                 Track a Delivery
               </Link>
             </div>
-
-            <dl className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-3">
-              {TRUST_STRIP.map(({ icon: Icon, label, detail }) => (
-                <div key={label} className="flex items-start gap-3">
-                  <Icon className="text-brand-text mt-0.5 size-5 shrink-0" aria-hidden="true" />
-                  <div>
-                    <dt className="text-foreground font-semibold">{label}</dt>
-                    <dd className="text-muted-foreground text-sm">{detail}</dd>
-                  </div>
-                </div>
-              ))}
-            </dl>
-          </div>
-
-          <div>
-            <HeroGraphic />
-            <p className="text-placeholder-foreground mt-2 text-xs">
-              Placeholder illustration — real Abuja courier photography to be sourced before launch
-              (see UI_DESIGN_BRIEF.md §6).
+            <p className="text-muted-foreground mt-8 text-sm">
+              Confidential handling · Reviewed within 1 hour · FCT-wide coverage
             </p>
-
-            <div className="border-border bg-card mt-6 rounded-[var(--radius-card)] border p-6 shadow-[var(--shadow-card)]">
-              <h2 className="font-[family-name:var(--font-heading)] text-lg font-semibold">
-                Why clients choose us
-              </h2>
-              <ul className="mt-4 grid gap-4 sm:grid-cols-2">
-                {WHY_CHOOSE_US.map(({ icon: Icon, title, detail }) => (
-                  <li key={title} className="flex items-start gap-3">
-                    <span className="bg-surface flex size-9 shrink-0 items-center justify-center rounded-full">
-                      <Icon className="text-brand-text size-4" aria-hidden="true" />
-                    </span>
-                    <div>
-                      <p className="text-foreground text-sm font-semibold">{title}</p>
-                      <p className="text-muted-foreground text-sm">{detail}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
           </div>
+
+          <HeroGraphic />
         </div>
       </section>
 
-      <section className="bg-surface border-border border-y">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:pt-24">
-          <h2 className="font-[family-name:var(--font-heading)] text-2xl font-bold sm:text-3xl">
-            What we deliver
-          </h2>
-          <p className="text-muted-foreground mt-2 max-w-2xl">
-            Five service lines, one booking flow — pick a service and we&apos;ll show the right
-            fields for it.
-          </p>
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {SERVICES.map(({ icon: Icon, title, detail }) => (
-              <div
-                key={title}
-                className="border-border bg-card rounded-[var(--radius-card)] border p-6 shadow-[var(--shadow-card)]"
-              >
-                <span className="bg-surface flex size-11 items-center justify-center rounded-full">
-                  <Icon className="text-brand-text size-5" aria-hidden="true" />
-                </span>
-                <h3 className="text-foreground mt-4 font-semibold">{title}</h3>
-                <p className="text-muted-foreground mt-1.5 text-sm">{detail}</p>
+      <section className="border-border border-y">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-6 px-4 py-10 sm:px-6 md:grid-cols-4">
+          {FACTS.map((fact) => (
+            <div key={fact.label}>
+              <p className="text-foreground font-[family-name:var(--font-heading)] text-2xl font-bold sm:text-3xl">
+                {fact.value}
+              </p>
+              <p className="text-muted-foreground mt-1 text-sm">{fact.label}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
+        <h2 className="text-foreground font-[family-name:var(--font-heading)] text-2xl font-bold sm:text-3xl">
+          What we <span className="text-brand-text">deliver</span>
+        </h2>
+        <p className="text-muted-foreground mt-2 max-w-2xl">
+          Five service lines, one booking flow — pick a service and we&apos;ll show the right fields
+          for it.
+        </p>
+
+        <div className="mt-12 space-y-16">
+          {FLAGSHIP_SERVICES.map((service, i) => (
+            <div
+              key={service.title}
+              className={`grid items-center gap-8 lg:grid-cols-2 lg:gap-16 ${i % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""}`}
+            >
+              <PlaceholderBlock />
+              <div>
+                <h3 className="text-foreground font-[family-name:var(--font-heading)] text-xl font-semibold">
+                  {service.title}
+                </h3>
+                <p className="text-muted-foreground mt-3">{service.detail}</p>
                 <Link
-                  href="/services"
-                  className="text-brand-text mt-3 inline-block text-sm font-semibold hover:underline"
+                  href={service.href}
+                  className="text-brand-text mt-4 inline-block font-semibold hover:underline"
                 >
                   Learn more →
                 </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="border-border divide-border mt-16 divide-y border-t">
+          {OTHER_SERVICES.map((service) => (
+            <div key={service.title} className="grid gap-2 py-6 sm:grid-cols-3 sm:gap-8">
+              <h3 className="text-foreground font-semibold">{service.title}</h3>
+              <p className="text-muted-foreground sm:col-span-2">{service.detail}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="bg-primary text-primary-foreground">
+        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
+          <h2 className="font-[family-name:var(--font-heading)] text-2xl font-bold sm:text-3xl">
+            Built for law firms, individuals & corporate clients
+          </h2>
+          <div className="mt-10 grid gap-10 sm:grid-cols-3 sm:gap-8">
+            {WHO_WE_SERVE.map((item) => (
+              <div key={item.title}>
+                <h3 className="font-semibold">{item.title}</h3>
+                <p className="mt-2 text-sm opacity-85">{item.detail}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
           <div>
-            <p className="text-brand-text text-sm font-semibold tracking-wide uppercase">
-              How it works
-            </p>
-            <h2 className="text-foreground mt-2 font-[family-name:var(--font-heading)] text-2xl font-bold sm:text-3xl">
-              Simple, secure, reliable.
+            <h2 className="text-foreground font-[family-name:var(--font-heading)] text-2xl font-bold sm:text-3xl">
+              How it <span className="text-brand-text">works</span>
             </h2>
-            <ol className="mt-8 space-y-6">
-              {HOW_IT_WORKS.map(({ step, title, detail }) => (
-                <li key={step} className="flex items-start gap-4">
-                  <span className="bg-primary text-primary-foreground flex size-8 shrink-0 items-center justify-center rounded-full text-sm font-bold">
-                    {step}
+            <div className="border-border divide-border mt-8 divide-y border-t">
+              {HOW_IT_WORKS.map((item) => (
+                <div key={item.step} className="flex items-start gap-6 py-6">
+                  <span className="text-brand-text font-[family-name:var(--font-heading)] text-2xl font-bold">
+                    {item.step}
                   </span>
                   <div>
-                    <p className="text-foreground font-semibold">{title}</p>
-                    <p className="text-muted-foreground text-sm">{detail}</p>
+                    <p className="text-foreground font-semibold">{item.title}</p>
+                    <p className="text-muted-foreground mt-1 text-sm">{item.detail}</p>
                   </div>
-                </li>
+                </div>
               ))}
-            </ol>
+            </div>
           </div>
 
-          <div className="bg-primary text-primary-foreground rounded-[var(--radius-card)] p-8">
-            <h2 className="font-[family-name:var(--font-heading)] text-xl font-semibold">
+          <div className="border-border bg-surface rounded-[var(--radius-card)] border p-8">
+            <h2 className="text-foreground font-[family-name:var(--font-heading)] text-xl font-semibold">
               Track your delivery
             </h2>
-            <p className="mt-2 text-sm opacity-90">
+            <p className="text-muted-foreground mt-2 text-sm">
               Enter your booking reference to check its current status.
             </p>
             <form action="/track" method="get" className="mt-6 flex flex-col gap-3 sm:flex-row">
@@ -247,18 +222,18 @@ export default function HomePage() {
                 name="ref"
                 type="text"
                 placeholder="e.g. PCX-2026-000123"
-                className="placeholder:text-placeholder-foreground text-foreground focus-visible:ring-focus-ring w-full rounded-[var(--radius-control)] bg-white px-4 py-3 text-sm focus-visible:ring-2 focus-visible:outline-none"
+                className="border-border bg-background text-foreground placeholder:text-placeholder-foreground focus-visible:ring-focus-ring w-full rounded-[var(--radius-control)] border px-4 py-3 text-sm focus-visible:ring-2 focus-visible:outline-none"
               />
               <button
                 type="submit"
-                className="bg-brand-50 text-primary shrink-0 rounded-[var(--radius-control)] px-5 py-3 text-sm font-semibold hover:bg-white"
+                className="bg-primary hover:bg-primary-hover text-primary-foreground shrink-0 rounded-[var(--radius-control)] px-5 py-3 text-sm font-semibold"
               >
                 Track Now
               </button>
             </form>
-            <p className="mt-4 text-xs opacity-80">
+            <p className="text-muted-foreground mt-4 text-xs">
               Need help instead?{" "}
-              <Link href="/contact" className="underline">
+              <Link href="/contact" className="text-brand-text underline">
                 Contact our team
               </Link>
               .
