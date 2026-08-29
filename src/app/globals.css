@@ -173,8 +173,12 @@
   --color-warning-bg: var(--warning-bg);
 
   /* Shape & elevation — UI_DESIGN_BRIEF.md §4 */
-  --radius-control: 0.5rem; /* 8px — buttons, inputs */
-  --radius-card: 0.75rem; /* 12px — cards, modals */
+  /* Sharp corners everywhere — client-directed override of
+     UI_DESIGN_BRIEF.md §4's "soft rounded corners" direction (0px in place
+     of the brief's 8px/12px). Token-based, so every component that already
+     consumes --radius-control/--radius-card updates from this one place. */
+  --radius-control: 0px;
+  --radius-card: 0px;
   --shadow-card: 0 1px 3px rgba(18, 35, 76, 0.08);
 }
 

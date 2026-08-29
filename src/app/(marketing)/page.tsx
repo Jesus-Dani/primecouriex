@@ -1,27 +1,22 @@
 import Link from "next/link";
-import { HeroGraphic } from "@/components/site/hero-graphic";
-import { PlaceholderBlock } from "@/components/site/placeholder-block";
 
-const FLAGSHIP_SERVICES = [
+const EYEBROW = "text-xs font-semibold tracking-[0.2em] text-muted-foreground uppercase";
+
+const SERVICES = [
   {
     title: "Process Serving & Legal Documents",
     detail:
       "Service of court processes, demand letters, and statutory notices, with court name, suit number, and case details captured at booking — nothing operationally useful is lost moving online.",
-    href: "/services",
   },
-  {
-    title: "Corporate & Institutional Courier",
-    detail:
-      "General courier services for corporate and institutional clients, booked the same way as any other service — no account or portal required in this version of the site.",
-    href: "/services",
-  },
-];
-
-const OTHER_SERVICES = [
   {
     title: "Registry Liaison & Document Retrieval",
     detail:
       "Coordination and retrieval of documents from government and registry offices on your behalf.",
+  },
+  {
+    title: "Corporate & Institutional Courier",
+    detail:
+      "General courier services for corporate and institutional clients, booked the same way as any other service — no account or portal required.",
   },
   {
     title: "Same-day Document Delivery",
@@ -80,38 +75,33 @@ const HOW_IT_WORKS = [
 export default function HomePage() {
   return (
     <>
-      <section className="mx-auto max-w-7xl px-4 pt-14 pb-16 sm:px-6 sm:pt-20">
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-          <div>
-            <h1 className="text-foreground font-[family-name:var(--font-heading)] text-4xl font-bold sm:text-5xl">
-              We deliver documents. <span className="text-brand-text">You get results.</span>
-            </h1>
-            <p className="text-muted-foreground mt-5 max-w-xl text-lg">
-              Reliable, discreet, time-sensitive delivery of legal and corporate documents across
-              the Federal Capital Territory — reviewed within 1 hour, priced by real driving
-              distance.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Link
-                href="/booking"
-                className="bg-primary hover:bg-primary-hover text-primary-foreground rounded-[var(--radius-control)] px-6 py-3 font-semibold"
-              >
-                Book a Service
-              </Link>
-              <Link
-                href="/track"
-                className="border-brand-text text-brand-text hover:bg-surface rounded-[var(--radius-control)] border px-6 py-3 font-semibold"
-              >
-                Track a Delivery
-              </Link>
-            </div>
-            <p className="text-muted-foreground mt-8 text-sm">
-              Confidential handling · Reviewed within 1 hour · FCT-wide coverage
-            </p>
-          </div>
-
-          <HeroGraphic />
+      <section className="mx-auto max-w-3xl px-4 pt-20 pb-16 text-center sm:px-6 sm:pt-28">
+        <p className={EYEBROW}>Legal courier &amp; process serving — FCT, Abuja</p>
+        <h1 className="text-foreground mt-4 font-[family-name:var(--font-heading)] text-4xl font-bold sm:text-5xl">
+          We deliver documents. You get results.
+        </h1>
+        <div className="border-border mx-auto mt-6 w-16 border-t" />
+        <p className="text-muted-foreground mx-auto mt-6 max-w-xl text-lg">
+          Reliable, discreet, time-sensitive delivery of legal and corporate documents across the
+          Federal Capital Territory — reviewed within 1 hour, priced by real driving distance.
+        </p>
+        <div className="mt-8 flex flex-wrap justify-center gap-4">
+          <Link
+            href="/booking"
+            className="bg-primary hover:bg-primary-hover text-primary-foreground rounded-[var(--radius-control)] px-6 py-3 font-semibold"
+          >
+            Book a Service
+          </Link>
+          <Link
+            href="/track"
+            className="border-brand-text text-brand-text hover:bg-surface rounded-[var(--radius-control)] border px-6 py-3 font-semibold"
+          >
+            Track a Delivery
+          </Link>
         </div>
+        <p className="text-muted-foreground mt-8 text-sm">
+          Confidential handling · Reviewed within 1 hour · FCT-wide coverage
+        </p>
       </section>
 
       <section className="border-border border-y">
@@ -127,40 +117,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
-        <h2 className="text-foreground font-[family-name:var(--font-heading)] text-2xl font-bold sm:text-3xl">
-          What we <span className="text-brand-text">deliver</span>
+      <section className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
+        <p className={EYEBROW}>What we deliver</p>
+        <h2 className="text-foreground mt-2 font-[family-name:var(--font-heading)] text-2xl font-bold sm:text-3xl">
+          Five service lines, one booking flow
         </h2>
-        <p className="text-muted-foreground mt-2 max-w-2xl">
-          Five service lines, one booking flow — pick a service and we&apos;ll show the right fields
-          for it.
-        </p>
 
-        <div className="mt-12 space-y-16">
-          {FLAGSHIP_SERVICES.map((service, i) => (
-            <div
-              key={service.title}
-              className={`grid items-center gap-8 lg:grid-cols-2 lg:gap-16 ${i % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""}`}
-            >
-              <PlaceholderBlock />
-              <div>
-                <h3 className="text-foreground font-[family-name:var(--font-heading)] text-xl font-semibold">
-                  {service.title}
-                </h3>
-                <p className="text-muted-foreground mt-3">{service.detail}</p>
-                <Link
-                  href={service.href}
-                  className="text-brand-text mt-4 inline-block font-semibold hover:underline"
-                >
-                  Learn more →
-                </Link>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="border-border divide-border mt-16 divide-y border-t">
-          {OTHER_SERVICES.map((service) => (
+        <div className="border-border divide-border mt-10 divide-y border-t">
+          {SERVICES.map((service) => (
             <div key={service.title} className="grid gap-2 py-6 sm:grid-cols-3 sm:gap-8">
               <h3 className="text-foreground font-semibold">{service.title}</h3>
               <p className="text-muted-foreground sm:col-span-2">{service.detail}</p>
@@ -171,8 +135,11 @@ export default function HomePage() {
 
       <section className="bg-primary text-primary-foreground">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
-          <h2 className="font-[family-name:var(--font-heading)] text-2xl font-bold sm:text-3xl">
-            Built for law firms, individuals & corporate clients
+          <p className="text-xs font-semibold tracking-[0.2em] text-white/60 uppercase">
+            Who we serve
+          </p>
+          <h2 className="mt-2 font-[family-name:var(--font-heading)] text-2xl font-bold sm:text-3xl">
+            Built for law firms, individuals &amp; corporate clients
           </h2>
           <div className="mt-10 grid gap-10 sm:grid-cols-3 sm:gap-8">
             {WHO_WE_SERVE.map((item) => (
@@ -188,8 +155,9 @@ export default function HomePage() {
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
           <div>
-            <h2 className="text-foreground font-[family-name:var(--font-heading)] text-2xl font-bold sm:text-3xl">
-              How it <span className="text-brand-text">works</span>
+            <p className={EYEBROW}>How it works</p>
+            <h2 className="text-foreground mt-2 font-[family-name:var(--font-heading)] text-2xl font-bold sm:text-3xl">
+              Simple, secure, reliable
             </h2>
             <div className="border-border divide-border mt-8 divide-y border-t">
               {HOW_IT_WORKS.map((item) => (
@@ -207,8 +175,9 @@ export default function HomePage() {
           </div>
 
           <div className="border-border bg-surface rounded-[var(--radius-card)] border p-8">
-            <h2 className="text-foreground font-[family-name:var(--font-heading)] text-xl font-semibold">
-              Track your delivery
+            <p className={EYEBROW}>Track your delivery</p>
+            <h2 className="text-foreground mt-2 font-[family-name:var(--font-heading)] text-xl font-semibold">
+              Check your booking status
             </h2>
             <p className="text-muted-foreground mt-2 text-sm">
               Enter your booking reference to check its current status.
