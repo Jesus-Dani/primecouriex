@@ -26,27 +26,12 @@ export const metadata: Metadata = {
     "Process serving, registry liaison, corporate courier, and same-day document delivery across the Federal Capital Territory, Abuja.",
 };
 
-// Applies a stored/system theme preference before paint, avoiding a
-// light-mode flash for users who prefer or have chosen dark mode.
-const themeInitScript = `
-(function () {
-  try {
-    var stored = localStorage.getItem('theme');
-    if (stored === 'dark') document.documentElement.classList.add('dark');
-    else if (stored === 'light') document.documentElement.classList.add('light');
-  } catch (e) {}
-})();
-`;
-
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
       className={`${manrope.variable} ${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-      </head>
       <body className="flex min-h-full flex-col">{children}</body>
     </html>
   );

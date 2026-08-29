@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { NAV_LINKS } from "./nav-links";
 
 export function MobileNav() {
@@ -44,11 +43,10 @@ export function MobileNav() {
               </li>
             ))}
           </ul>
-          <div className="border-border mt-3 flex items-center justify-between border-t pt-3">
+          <div className="border-border mt-3 border-t pt-3">
             <a href="tel:+2349070535182" className="text-foreground text-sm font-medium">
               +234 907 053 5182
             </a>
-            <ThemeToggle />
           </div>
         </nav>
       )}

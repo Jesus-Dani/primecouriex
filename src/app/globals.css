@@ -1,8 +1,5 @@
 @import "tailwindcss";
 
-/* Enables class-based dark mode (`.dark` on <html>) alongside system preference. */
-@custom-variant dark (&:where(.dark, .dark *));
-
 :root {
   /* ==========================================================================
      Brand color scales — UI_DESIGN_BRIEF.md §2.2
@@ -96,14 +93,13 @@
   --primary-foreground: #ffffff;
 
   /* Brand-tinted text (wordmark, secondary/ghost button label) — readable on
-     --background in both modes, unlike a raw --brand-900/50 pair would be
-     without duplicating the dark:-class-vs-system-preference split below. */
+     --background in both modes, unlike a raw --brand-900/50 pair would be. */
   --brand-text: var(--brand-900);
 }
 
-/* Dark mode via system preference, unless a manual .light override is set */
+/* Dark mode follows the browser/OS preference only — no manual toggle. */
 @media (prefers-color-scheme: dark) {
-  :root:not(.light) {
+  :root {
     --background: var(--brand-900);
     --foreground: var(--brand-50);
     --surface: var(--brand-800);
@@ -127,29 +123,6 @@
     --warning-text: #fbbf24;
     --warning-bg: #78350f;
   }
-}
-
-/* Dark mode via explicit manual toggle (wins over system preference) */
-:root.dark {
-  --background: var(--brand-900);
-  --foreground: var(--brand-50);
-  --surface: var(--brand-800);
-  --card: var(--brand-800);
-  --border: var(--brand-700);
-  --muted-foreground: var(--brand-200);
-  --placeholder-foreground: var(--brand-300);
-  --focus-ring: var(--brand-400);
-
-  --primary: var(--brand-500);
-  --primary-hover: var(--brand-400);
-  --primary-foreground: #ffffff;
-
-  --success-text: #4ade80;
-  --success-bg: #14532d;
-  --error-text: #f87171;
-  --error-bg: #7f1d1d;
-  --warning-text: #fbbf24;
-  --warning-bg: #78350f;
 }
 
 @theme inline {

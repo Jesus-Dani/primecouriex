@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { MobileNav } from "./mobile-nav";
 import { NAV_LINKS } from "./nav-links";
 
@@ -25,9 +24,6 @@ export function SiteHeader() {
           ))}
         </nav>
         <div className="flex items-center gap-3">
-          <div className="hidden xl:block">
-            <ThemeToggle />
-          </div>
           <Link
             href="/booking"
             className="bg-primary hover:bg-primary-hover text-primary-foreground focus-visible:ring-focus-ring rounded-[var(--radius-control)] px-5 py-2 text-sm font-semibold focus-visible:ring-2 focus-visible:outline-none"
