@@ -42,6 +42,14 @@ npm run lint
 npm run build
 ```
 
+`dev`/`build` run on webpack, not Turbopack. On some locked-down Windows
+machines, an Application Control / antivirus policy blocks the native
+`@next/swc-win32-x64-msvc` binary Turbopack requires (no WASM fallback
+exists for Turbopack); webpack mode falls back to the WASM SWC compiler
+automatically and just works. If your machine doesn't have that
+restriction and you want the faster Turbopack dev server, use
+`npm run dev:turbo` instead.
+
 ## Database setup
 
 Apply the SQL in `supabase/migrations/0001_init.sql` and then
