@@ -79,16 +79,10 @@ export default function HomePage() {
       <section className="mx-auto max-w-7xl px-4 pt-14 pb-16 sm:px-6 sm:pt-20">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <div>
-            <p className={EYEBROW}>Legal courier &amp; process serving — FCT, Abuja</p>
-            <h1 className="text-foreground mt-4 font-[family-name:var(--font-heading)] text-4xl font-bold sm:text-5xl">
-              We deliver documents. You get results.
+            <h1 className="text-foreground font-[family-name:var(--font-heading)] text-4xl font-bold sm:text-5xl">
+              Send legal documents confidentially.
             </h1>
             <div className="border-border mt-6 w-16 border-t" />
-            <p className="text-muted-foreground mt-6 max-w-xl text-lg">
-              Reliable, discreet, time-sensitive delivery of legal and corporate documents across
-              the Federal Capital Territory — reviewed within 1 hour, priced by real driving
-              distance.
-            </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
                 href="/booking"
@@ -96,28 +90,18 @@ export default function HomePage() {
               >
                 Book a Service
               </Link>
-              <Link
-                href="/track"
-                className="border-brand-text text-brand-text hover:bg-surface rounded-[var(--radius-control)] border px-6 py-3 font-semibold"
-              >
-                Track a Delivery
-              </Link>
             </div>
-            <p className="text-muted-foreground mt-8 text-sm">
-              Confidential handling · Reviewed within 1 hour · FCT-wide coverage
-            </p>
           </div>
 
-          <div className="relative aspect-video w-full">
-            <Image
-              src="/images/hero-courier-delivery.jpg"
-              alt="A Prime Couriex courier handing over a delivery for signature on a tablet"
-              fill
-              priority
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              className="object-cover"
-            />
-          </div>
+          <Image
+            src="/images/hero-courier-delivery.jpg"
+            alt="A Prime Couriex courier handing over a delivery for signature on a tablet"
+            width={1280}
+            height={683}
+            priority
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            className="h-auto w-full"
+          />
         </div>
       </section>
 
@@ -135,9 +119,8 @@ export default function HomePage() {
       </section>
 
       <section className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
-        <p className={EYEBROW}>What we deliver</p>
-        <h2 className="text-foreground mt-2 font-[family-name:var(--font-heading)] text-2xl font-bold sm:text-3xl">
-          Five service lines, one booking flow
+        <h2 className="text-foreground font-[family-name:var(--font-heading)] text-2xl font-bold sm:text-3xl">
+          Our services include
         </h2>
 
         <div className="border-border divide-border mt-10 divide-y border-t">
