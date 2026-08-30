@@ -5,10 +5,6 @@ import { NAV_LINKS } from "./nav-links";
 export function SiteHeader() {
   return (
     <header className="bg-background border-border border-b">
-      <div className="bg-primary text-primary-foreground py-2 text-center text-xs font-medium sm:text-sm">
-        Reviewed within 1 hour, every booking.
-      </div>
-
       <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
         <Link
           href="/"
