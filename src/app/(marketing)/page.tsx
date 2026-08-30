@@ -7,7 +7,7 @@ const SERVICES = [
   {
     title: "Process Serving & Legal Documents",
     detail:
-      "Service of court processes, demand letters, and statutory notices, with court name, suit number, and case details captured at booking — nothing operationally useful is lost moving online.",
+      "Service of court processes, demand letters, and statutory notices, with court name, suit number, and case details captured at booking. Nothing operationally useful is lost moving online.",
   },
   {
     title: "Registry Liaison & Document Retrieval",
@@ -17,7 +17,7 @@ const SERVICES = [
   {
     title: "Corporate & Institutional Courier",
     detail:
-      "General courier services for corporate and institutional clients, booked the same way as any other service — no account or portal required.",
+      "General courier services for corporate and institutional clients, booked the same way as any other service. No account or portal required.",
   },
   {
     title: "Same-day Document Delivery",
@@ -64,7 +64,7 @@ const HOW_IT_WORKS = [
   {
     step: "02",
     title: "We review",
-    detail: "Our team confirms your booking — within 1 hour, as standard.",
+    detail: "Our team confirms your booking within 1 hour, as standard.",
   },
   {
     step: "03",
