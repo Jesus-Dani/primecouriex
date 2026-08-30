@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const EYEBROW = "text-xs font-semibold tracking-[0.2em] text-muted-foreground uppercase";
@@ -75,33 +76,49 @@ const HOW_IT_WORKS = [
 export default function HomePage() {
   return (
     <>
-      <section className="mx-auto max-w-3xl px-4 pt-20 pb-16 text-center sm:px-6 sm:pt-28">
-        <p className={EYEBROW}>Legal courier &amp; process serving — FCT, Abuja</p>
-        <h1 className="text-foreground mt-4 font-[family-name:var(--font-heading)] text-4xl font-bold sm:text-5xl">
-          We deliver documents. You get results.
-        </h1>
-        <div className="border-border mx-auto mt-6 w-16 border-t" />
-        <p className="text-muted-foreground mx-auto mt-6 max-w-xl text-lg">
-          Reliable, discreet, time-sensitive delivery of legal and corporate documents across the
-          Federal Capital Territory — reviewed within 1 hour, priced by real driving distance.
-        </p>
-        <div className="mt-8 flex flex-wrap justify-center gap-4">
-          <Link
-            href="/booking"
-            className="bg-primary hover:bg-primary-hover text-primary-foreground rounded-[var(--radius-control)] px-6 py-3 font-semibold"
-          >
-            Book a Service
-          </Link>
-          <Link
-            href="/track"
-            className="border-brand-text text-brand-text hover:bg-surface rounded-[var(--radius-control)] border px-6 py-3 font-semibold"
-          >
-            Track a Delivery
-          </Link>
+      <section className="mx-auto max-w-7xl px-4 pt-14 pb-16 sm:px-6 sm:pt-20">
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+          <div>
+            <p className={EYEBROW}>Legal courier &amp; process serving — FCT, Abuja</p>
+            <h1 className="text-foreground mt-4 font-[family-name:var(--font-heading)] text-4xl font-bold sm:text-5xl">
+              We deliver documents. You get results.
+            </h1>
+            <div className="border-border mt-6 w-16 border-t" />
+            <p className="text-muted-foreground mt-6 max-w-xl text-lg">
+              Reliable, discreet, time-sensitive delivery of legal and corporate documents across
+              the Federal Capital Territory — reviewed within 1 hour, priced by real driving
+              distance.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-4">
+              <Link
+                href="/booking"
+                className="bg-primary hover:bg-primary-hover text-primary-foreground rounded-[var(--radius-control)] px-6 py-3 font-semibold"
+              >
+                Book a Service
+              </Link>
+              <Link
+                href="/track"
+                className="border-brand-text text-brand-text hover:bg-surface rounded-[var(--radius-control)] border px-6 py-3 font-semibold"
+              >
+                Track a Delivery
+              </Link>
+            </div>
+            <p className="text-muted-foreground mt-8 text-sm">
+              Confidential handling · Reviewed within 1 hour · FCT-wide coverage
+            </p>
+          </div>
+
+          <div className="relative aspect-video w-full">
+            <Image
+              src="/images/hero-courier-delivery.jpg"
+              alt="A Prime Couriex courier handing over a delivery for signature on a tablet"
+              fill
+              priority
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover"
+            />
+          </div>
         </div>
-        <p className="text-muted-foreground mt-8 text-sm">
-          Confidential handling · Reviewed within 1 hour · FCT-wide coverage
-        </p>
       </section>
 
       <section className="border-border border-y">

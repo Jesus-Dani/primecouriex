@@ -9,10 +9,7 @@ export default function BookingPage() {
       <p className="text-muted-foreground mt-3">
         The full booking form and live pricing engine are built in Phase 4.
       </p>
-      <Link
-        href="/"
-        className="text-brand-600 dark:text-brand-300 mt-6 text-sm font-semibold hover:underline"
-      >
+      <Link href="/" className="text-brand-text mt-6 text-sm font-semibold hover:underline">
         ← Back to Home
       </Link>
     </div>

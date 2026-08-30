@@ -75,8 +75,9 @@
   --warning-text: #b45309;
   --warning-bg: #fef3e2;
 
-  /* Surface roles — light mode (default) */
-  --background: #ffffff;
+  /* Surface roles — single theme, per client direction (overrides
+     UI_DESIGN_BRIEF.md §5's light+dark mode requirement). */
+  --background: #fafafa;
   --foreground: var(--gray-900);
   --surface: var(--gray-50);
   --card: #ffffff;
@@ -85,44 +86,12 @@
   --placeholder-foreground: var(--gray-500);
   --focus-ring: var(--brand-500);
 
-  /* Primary action tokens — distinct from --background in both modes, unlike
-     --brand-900 (light-mode primary) which becomes the dark-mode page
-     background and would make bg-brand-900 buttons vanish in dark mode. */
   --primary: var(--brand-900);
   --primary-hover: var(--brand-800);
   --primary-foreground: #ffffff;
 
-  /* Brand-tinted text (wordmark, secondary/ghost button label) — readable on
-     --background in both modes, unlike a raw --brand-900/50 pair would be. */
+  /* Brand-tinted text (wordmark, secondary/ghost button label). */
   --brand-text: var(--brand-900);
-}
-
-/* Dark mode follows the browser/OS preference only — no manual toggle. */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: var(--brand-900);
-    --foreground: var(--brand-50);
-    --surface: var(--brand-800);
-    --card: var(--brand-800);
-    --border: var(--brand-700);
-    --muted-foreground: var(--brand-200);
-    --placeholder-foreground: var(--brand-300);
-    --focus-ring: var(--brand-400);
-
-    --primary: var(--brand-500);
-    --primary-hover: var(--brand-400);
-    --primary-foreground: #ffffff;
-    --brand-text: var(--brand-50);
-
-    /* Dark-surface semantic accents — brief §5: use mid-scale text colors
-       directly as accents, not the pale light-mode background tints. */
-    --success-text: #4ade80;
-    --success-bg: #14532d;
-    --error-text: #f87171;
-    --error-bg: #7f1d1d;
-    --warning-text: #fbbf24;
-    --warning-bg: #78350f;
-  }
 }
 
 @theme inline {
