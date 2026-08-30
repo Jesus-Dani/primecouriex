@@ -76,32 +76,31 @@ const HOW_IT_WORKS = [
 export default function HomePage() {
   return (
     <>
-      <section className="mx-auto max-w-7xl px-4 pt-14 pb-16 sm:px-6 sm:pt-20">
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-          <div>
-            <h1 className="text-foreground font-[family-name:var(--font-heading)] text-4xl font-bold sm:text-5xl">
+      <section className="relative flex min-h-[420px] items-center overflow-hidden sm:min-h-[520px] lg:min-h-[600px]">
+        <Image
+          src="/images/hero-courier-delivery.jpg"
+          alt="A Prime Couriex courier handing over a delivery for signature on a tablet"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+        <div className="from-primary/85 via-primary/55 absolute inset-0 bg-gradient-to-r to-transparent" />
+        <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6">
+          <div className="max-w-xl">
+            <h1 className="font-[family-name:var(--font-heading)] text-4xl font-bold text-white sm:text-5xl">
               Send legal documents confidentially.
             </h1>
-            <div className="border-border mt-6 w-16 border-t" />
+            <div className="mt-6 w-16 border-t border-white/40" />
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
                 href="/booking"
-                className="bg-primary hover:bg-primary-hover text-primary-foreground rounded-[var(--radius-control)] px-6 py-3 font-semibold"
+                className="text-primary rounded-[var(--radius-control)] bg-white px-6 py-3 font-semibold hover:bg-white/90"
               >
                 Book a Service
               </Link>
             </div>
           </div>
-
-          <Image
-            src="/images/hero-courier-delivery.jpg"
-            alt="A Prime Couriex courier handing over a delivery for signature on a tablet"
-            width={1280}
-            height={683}
-            priority
-            sizes="(min-width: 1024px) 50vw, 100vw"
-            className="h-auto w-full"
-          />
         </div>
       </section>
 
