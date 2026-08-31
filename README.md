@@ -26,7 +26,10 @@ the locked TRD and explicitly approved before proceeding. The actual stack:
   TRD §10.1 requirement ("no public API exposes PII beyond limited status")
   true regardless of the DB access library.
 - See `src/lib/supabase/{client,server,admin,middleware}.ts` for the four
-  client variants and what each is for.
+  client variants and what each is for. Route protection and session
+  refresh live in `src/proxy.ts` (Next.js 16 renamed the "middleware" file
+  convention to "proxy" — note it must live under `src/`, not the project
+  root, given this project's `src/` directory layout).
 
 Everything else in the PRD/TRD (pricing rules, data model fields, booking
 flow, page list, security/NDPR requirements) is unchanged.
@@ -56,6 +59,15 @@ Apply the SQL in `supabase/migrations/0001_init.sql` and then
 `supabase/seed.sql` via the Supabase SQL Editor (or `supabase db push` /
 `psql` if you have the Supabase CLI linked or a direct connection string).
 There's no Prisma migration step — these are plain Postgres DDL/DML files.
+
+## Staff accounts
+
+There's no public staff sign-up (TRD §7 — a single, business-provisioned
+role in v1). Create staff accounts with:
+
+```bash
+npm run create-staff-user -- "staff@example.com" "a-strong-password" "Full Name"
+```
 
 ## Project structure
 
