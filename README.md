@@ -31,8 +31,41 @@ the locked TRD and explicitly approved before proceeding. The actual stack:
   convention to "proxy" — note it must live under `src/`, not the project
   root, given this project's `src/` directory layout).
 
-Everything else in the PRD/TRD (pricing rules, data model fields, booking
-flow, page list, security/NDPR requirements) is unchanged.
+Everything else in the PRD/TRD (data model fields, booking flow, page list,
+security/NDPR requirements) is unchanged.
+
+## Architecture note — pricing model, "for now"
+
+PRD §2/§10.1/Appendix A explicitly retired `docs/Internal_Rate_Sheet.docx`'s
+flat per-district fee table in favor of distance-based Google Maps pricing.
+The client has since asked to switch back to that rate sheet as the active
+pricing source "for now" (Google Maps API keys aren't provisioned yet
+either, so distance-based pricing can't run regardless). Both engines exist
+side by side so switching back later is a config change, not a rebuild:
+
+- `src/lib/pricing.ts` — the original distance-based engine (TRD §4),
+  untouched, still fully tested.
+- `src/lib/pricing-district.ts` — the active engine. Flat per-district
+  `standard_fee` + `return_copy_addon_fee` (`supabase/migrations/
+  0002_district_rates.sql`, seeded from the rate sheet) instead of a
+  distance formula. The flat ₦3,500 return-copy add-on from PRD §10.3 is
+  superseded too — the rate sheet prices it per-district, from ₦3,500 up to
+  ₦12,500. The urgent-express surcharge is untouched (still a flat ₦5,000
+  on top, from `pricing_config` — the rate sheet doesn't address delivery
+  speed).
+- **Zuba and Abaji have no confirmed client-facing fee** in the source
+  document (its own note: Zuba's fees "need to be set before this row can
+  be corrected"; Abaji is "Quotation" with no fixed rate). Both are seeded
+  with `standard_fee`/`return_copy_addon_fee` as `null` and price as
+  "on request" (`priceOnRequest: true`) rather than a guessed number — the
+  same pattern already used for the Google Maps fallback case.
+- `rider_rate` on `district_rates` is the business's internal cost (source
+  doc: "NOT FOR CLIENT DISTRIBUTION"). Never render it in customer-facing
+  UI; it's there only for potential internal/admin-dashboard use.
+- Not yet built: the booking form and price calculator (Phase 4) will need
+  a district picker once they're built, not free-text address entry for
+  pricing purposes — addresses are still needed for the courier, just no
+  longer for the price itself.
 
 ## Getting started
 
@@ -55,10 +88,11 @@ restriction and you want the faster Turbopack dev server, use
 
 ## Database setup
 
-Apply the SQL in `supabase/migrations/0001_init.sql` and then
-`supabase/seed.sql` via the Supabase SQL Editor (or `supabase db push` /
-`psql` if you have the Supabase CLI linked or a direct connection string).
-There's no Prisma migration step — these are plain Postgres DDL/DML files.
+Apply the SQL in `supabase/migrations/`, in order (`0001_init.sql`, then
+`0002_district_rates.sql`), and then `supabase/seed.sql`, via the Supabase
+SQL Editor (or `supabase db push` / `psql` if you have the Supabase CLI
+linked or a direct connection string). There's no Prisma migration step —
+these are plain Postgres DDL/DML files.
 
 ## Staff accounts
 

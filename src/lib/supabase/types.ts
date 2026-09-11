@@ -102,6 +102,20 @@ export interface PricingConfigRow {
   updated_at: string;
 }
 
+// District flat-rate pricing (supabase/migrations/0002_district_rates.sql) —
+// client-directed override of the distance-based engine, "for now". null
+// standard_fee/return_copy_addon_fee means "price on request" (Zuba, Abaji
+// — see seed.sql). rider_rate is internal-only; never render it to customers.
+export interface DistrictRateRow {
+  id: string;
+  district: string;
+  rider_rate: number | null;
+  standard_fee: number | null;
+  return_copy_addon_fee: number | null;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface Database {
   public: {
     Tables: {
@@ -127,6 +141,12 @@ export interface Database {
         Insert: Omit<PricingConfigRow, "id" | "updated_at"> &
           Partial<Pick<PricingConfigRow, "id" | "updated_at">>;
         Update: Partial<PricingConfigRow>;
+      };
+      district_rates: {
+        Row: DistrictRateRow;
+        Insert: Omit<DistrictRateRow, "id" | "created_at" | "updated_at"> &
+          Partial<Pick<DistrictRateRow, "id" | "created_at" | "updated_at">>;
+        Update: Partial<DistrictRateRow>;
       };
     };
   };
