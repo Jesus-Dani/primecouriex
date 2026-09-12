@@ -62,10 +62,33 @@ side by side so switching back later is a config change, not a rebuild:
 - `rider_rate` on `district_rates` is the business's internal cost (source
   doc: "NOT FOR CLIENT DISTRIBUTION"). Never render it in customer-facing
   UI; it's there only for potential internal/admin-dashboard use.
-- Not yet built: the booking form and price calculator (Phase 4) will need
-  a district picker once they're built, not free-text address entry for
-  pricing purposes — addresses are still needed for the courier, just no
-  longer for the price itself.
+- The booking form and price calculator (Phase 4) use a pickup-district
+  dropdown for pricing, plus separate free-text pickup/delivery address
+  fields for the courier — client confirmed pricing is based on the pickup
+  district specifically, not delivery or an address-driven lookup.
+
+## Architecture note — Supabase JS type-inference limits
+
+`@supabase/supabase-js`'s automatic row-type inference for `.from(table)`
+has a real, reproducible limit: once the `Database` type has enough tables
+(and `bookings`, by far the widest Row type here, is consistently the one
+that breaks), specific queries silently resolve to `never` instead of their
+real row type — no type error points at the actual cause, just a confusing
+"property does not exist on type never" at the call site. Worked around
+case by case:
+
+- `.select()` queries: `.returns<T>()` explicitly overrides the inferred
+  type (the library's own documented escape hatch). See
+  `src/lib/get-urgent-surcharge.ts` and the district/booking lookups in
+  `src/app/booking/actions.ts` and `src/app/booking/confirmation/[ref]/page.tsx`.
+- `.insert()` has no equivalent override for its input type. The insert
+  payload is instead built as a variable explicitly typed against the real
+  `BookingRow` interface (so field-name typos are still caught), then
+  passed through a narrowly-scoped type assertion on the table accessor —
+  see the comment in `src/app/booking/actions.ts`.
+
+If you add more tables and hit this again elsewhere, the fix is the same
+pattern, not a deeper investigation.
 
 ## Getting started
 
@@ -88,11 +111,18 @@ restriction and you want the faster Turbopack dev server, use
 
 ## Database setup
 
-Apply the SQL in `supabase/migrations/`, in order (`0001_init.sql`, then
-`0002_district_rates.sql`), and then `supabase/seed.sql`, via the Supabase
-SQL Editor (or `supabase db push` / `psql` if you have the Supabase CLI
-linked or a direct connection string). There's no Prisma migration step —
-these are plain Postgres DDL/DML files.
+Apply the SQL in `supabase/migrations/`, in order (`0001_init.sql`,
+`0002_district_rates.sql`, `0003_booking_pickup_district.sql`), and then
+`supabase/seed.sql`, via the Supabase SQL Editor (or `supabase db push` /
+`psql` if you have the Supabase CLI linked or a direct connection string).
+There's no Prisma migration step — these are plain Postgres DDL/DML files.
+
+If a query starts failing right after applying a migration with an error
+like `Could not find the '<column>' column of '<table>' in the schema
+cache`, that's PostgREST's schema cache being stale, not a real problem —
+it refreshes automatically within a short while (or reload it immediately
+from the Supabase dashboard, or via `NOTIFY pgrst, 'reload schema';` in the
+SQL Editor if you have a moment to spare).
 
 ## Staff accounts
 

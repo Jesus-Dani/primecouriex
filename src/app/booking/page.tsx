@@ -1,17 +1,53 @@
-import Link from "next/link";
+import type { Metadata } from "next";
+import { BookingForm } from "@/components/booking/booking-form";
+import { getDistrictRates } from "@/lib/get-district-rates";
+import { getUrgentSurcharge } from "@/lib/get-urgent-surcharge";
+import { SERVICE_TYPES } from "@/lib/booking-schema";
+import type { ServiceType } from "@/lib/supabase/types";
 
-export default function BookingPage() {
+export const metadata: Metadata = {
+  title: "Online Booking | Prime Couriex Express",
+  description:
+    "Book a courier, process serving, or registry liaison service across the FCT, Abuja.",
+};
+
+// Pricing must always reflect the live database (TRD §3.2) — see the same
+// note on the price calculator page.
+export const dynamic = "force-dynamic";
+
+export default async function BookingPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ service?: string }>;
+}) {
+  const { service } = await searchParams;
+  const defaultServiceType = SERVICE_TYPES.includes(service as ServiceType)
+    ? (service as ServiceType)
+    : undefined;
+
+  const [districts, urgentSurcharge] = await Promise.all([
+    getDistrictRates(),
+    getUrgentSurcharge(),
+  ]);
+
   return (
-    <div className="mx-auto flex min-h-svh max-w-3xl flex-col items-start justify-center px-4 py-16 sm:px-6">
-      <h1 className="text-foreground font-[family-name:var(--font-heading)] text-3xl font-bold">
-        Online Booking
+    <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+      <h1 className="text-foreground font-[family-name:var(--font-heading)] text-3xl font-bold sm:text-4xl">
+        Book a service
       </h1>
-      <p className="text-muted-foreground mt-3">
-        The full booking form and live pricing engine are built in Phase 4.
+      <p className="text-muted-foreground mt-3 max-w-2xl">
+        Fill in the details below. We review every booking, typically within 1 hour, and you&apos;ll
+        get a reference number immediately so you can track progress. No file uploads — describe
+        what needs to move in the text fields.
       </p>
-      <Link href="/" className="text-brand-text mt-6 text-sm font-semibold hover:underline">
-        ← Back to Home
-      </Link>
+
+      <div className="mt-10">
+        <BookingForm
+          districts={districts}
+          urgentSurcharge={urgentSurcharge}
+          defaultServiceType={defaultServiceType}
+        />
+      </div>
     </div>
   );
 }

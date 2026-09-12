@@ -30,6 +30,11 @@ export interface BookingRow {
   pickup_address: string;
   pickup_lat: number | null;
   pickup_lng: number | null;
+  // Which district the booking was priced against (TRD §4) — added by
+  // supabase/migrations/0003_booking_pickup_district.sql for the district-
+  // rate pricing model. Distinct from pickup_address, which is the free-text
+  // street address for the courier.
+  pickup_district: string;
   pickup_contact_name: string;
   pickup_contact_phone: string;
   delivery_address: string;
@@ -119,37 +124,44 @@ export interface DistrictRateRow {
 export interface Database {
   public: {
     Tables: {
+      // Insert/Update use a plain Partial<Row> rather than the more precise
+      // Omit<Row, "id"|...> & Partial<Pick<Row, "id"|...>> pattern (which
+      // marks only id/timestamp columns optional). That more precise form
+      // computes a materially more complex type per table, and with five
+      // tables this pushed @supabase/supabase-js's row-inference past some
+      // internal complexity threshold — queries against specific tables
+      // (which one seemed arbitrary) silently resolved to `never` instead of
+      // their real Row type, with no type error pointing at the cause. All
+      // required fields are already enforced by the Zod schema before any
+      // insert happens (src/lib/booking-schema.ts), so the looser Insert
+      // type here costs us little.
       bookings: {
         Row: BookingRow;
-        Insert: Omit<BookingRow, "id" | "created_at" | "updated_at"> &
-          Partial<Pick<BookingRow, "id" | "created_at" | "updated_at">>;
+        Insert: Partial<BookingRow>;
         Update: Partial<BookingRow>;
         Relationships: [];
       };
       staff_users: {
         Row: StaffUserRow;
-        Insert: Omit<StaffUserRow, "created_at"> & Partial<Pick<StaffUserRow, "created_at">>;
+        Insert: Partial<StaffUserRow>;
         Update: Partial<StaffUserRow>;
         Relationships: [];
       };
       booking_status_history: {
         Row: BookingStatusHistoryRow;
-        Insert: Omit<BookingStatusHistoryRow, "id" | "created_at"> &
-          Partial<Pick<BookingStatusHistoryRow, "id" | "created_at">>;
+        Insert: Partial<BookingStatusHistoryRow>;
         Update: Partial<BookingStatusHistoryRow>;
         Relationships: [];
       };
       pricing_config: {
         Row: PricingConfigRow;
-        Insert: Omit<PricingConfigRow, "id" | "updated_at"> &
-          Partial<Pick<PricingConfigRow, "id" | "updated_at">>;
+        Insert: Partial<PricingConfigRow>;
         Update: Partial<PricingConfigRow>;
         Relationships: [];
       };
       district_rates: {
         Row: DistrictRateRow;
-        Insert: Omit<DistrictRateRow, "id" | "created_at" | "updated_at"> &
-          Partial<Pick<DistrictRateRow, "id" | "created_at" | "updated_at">>;
+        Insert: Partial<DistrictRateRow>;
         Update: Partial<DistrictRateRow>;
         Relationships: [];
       };
