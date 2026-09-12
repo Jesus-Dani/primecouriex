@@ -8,6 +8,24 @@ export const metadata: Metadata = {
     "Prime Couriex Express Ltd is a legal and corporate logistics provider serving the Federal Capital Territory, Abuja.",
 };
 
+const WHO_WE_SERVE = [
+  {
+    title: "Individual & legal clients",
+    detail:
+      "If you need a court process served, a demand letter delivered, or a legal document sent with proof it arrived, you can book directly, no law firm required. You'll see the full price before you commit, and we'll ask for the same details a professional process server would want: who's being served, the address, and any landmark that makes it easier to find. Confidentiality is the default, not an add-on, and our terms are clear about what we're liable for, so there's no ambiguity about what you're getting.",
+  },
+  {
+    title: "Law firms & practitioners",
+    detail:
+      "When a filing deadline is bearing down, you don't have time to explain your workflow to someone new. Book through us with the court name, suit or case number, and the exact process to be served captured upfront, the same details you're already used to providing. Repeat bookings are quick because the form asks for what matters to your practice, and every booking is reviewed within an hour so you're not left wondering whether it's moving.",
+  },
+  {
+    title: "Corporate & institutional clients",
+    detail:
+      "Your organisation doesn't need an account, a procurement process, or a login to get started. Book a courier run or a registry liaison job the same way anyone else does, just under your company's name. If you'd rather work on a retainer or invoice-based billing arrangement than pay per booking, that's a conversation we have directly with your team, outside the online flow.",
+  },
+];
+
 const VALUES = [
   {
     title: "Confidential",
@@ -45,11 +63,10 @@ export default function AboutPage() {
             of confidence.
           </p>
           <p>
-            Prime Couriex Express Ltd was built around that responsibility. We serve individuals and
-            self-represented litigants who need a process served quickly and correctly, law firms
-            and practitioners who need fast, repeat bookings ahead of court deadlines, and corporate
-            and institutional clients who need their documents and packages moved securely under
-            their own name.
+            Prime Couriex Express Ltd was built around that responsibility, and around three kinds
+            of people who all need something slightly different from a courier: individuals and
+            self-represented litigants, law firms and practitioners, and corporate and institutional
+            clients.
           </p>
           <p>
             Every booking is reviewed by a member of our team, typically within an hour, and every
@@ -57,6 +74,20 @@ export default function AboutPage() {
             create and no app to download; you book, we confirm, and you can check status any time
             with your reference number.
           </p>
+        </div>
+
+        <div className="mt-12">
+          <h2 className="text-foreground font-[family-name:var(--font-heading)] text-xl font-semibold">
+            Who we serve
+          </h2>
+          <div className="border-border divide-border mt-6 divide-y border-t">
+            {WHO_WE_SERVE.map((item) => (
+              <div key={item.title} className="py-6">
+                <h3 className="text-foreground font-semibold">{item.title}</h3>
+                <p className="text-muted-foreground mt-2">{item.detail}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="border-border divide-border mt-12 divide-y border-t">

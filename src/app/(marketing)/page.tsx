@@ -30,26 +30,8 @@ const SERVICES = [
   },
 ];
 
-const WHO_WE_SERVE = [
-  {
-    title: "Individual & legal clients",
-    detail:
-      "Book process serving quickly, see the cost upfront, and know exactly what our confidentiality and liability terms cover.",
-  },
-  {
-    title: "Law firms & practitioners",
-    detail:
-      "Fast, repeat bookings ahead of court deadlines, with the full court and case metadata your process requires.",
-  },
-  {
-    title: "Corporate & institutional clients",
-    detail:
-      "Book courier and registry liaison services under your organisation's name, no account required.",
-  },
-];
-
 const FACTS = [
-  { value: "₦540/km", label: "Transparent, distance-based pricing" },
+  { value: "Flat-rate", label: "Upfront pricing by pickup district" },
   { value: "1 hour", label: "Standard booking review time" },
   { value: "5", label: "Service lines, one booking flow" },
   { value: "FCT", label: "Full coverage across Abuja" },
@@ -129,25 +111,6 @@ export default function HomePage() {
               <p className="text-muted-foreground sm:col-span-2">{service.detail}</p>
             </div>
           ))}
-        </div>
-      </section>
-
-      <section className="bg-primary text-primary-foreground">
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
-          <p className="text-xs font-semibold tracking-[0.2em] text-white/60 uppercase">
-            Who we serve
-          </p>
-          <h2 className="mt-2 font-[family-name:var(--font-heading)] text-2xl font-bold sm:text-3xl">
-            Built for law firms, individuals &amp; corporate clients
-          </h2>
-          <div className="mt-10 grid gap-10 sm:grid-cols-3 sm:gap-8">
-            {WHO_WE_SERVE.map((item) => (
-              <div key={item.title}>
-                <h3 className="font-semibold">{item.title}</h3>
-                <p className="mt-2 text-sm opacity-85">{item.detail}</p>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
