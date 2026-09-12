@@ -31,9 +31,8 @@ const SERVICES = [
 ];
 
 const FACTS = [
-  { value: "Flat-rate", label: "Upfront pricing by pickup district" },
   { value: "1 hour", label: "Standard booking review time" },
-  { value: "5", label: "Service lines, one booking flow" },
+  { value: "Easy", label: "Book online in minutes, no account needed" },
   { value: "FCT", label: "Full coverage across Abuja" },
 ];
 
@@ -87,7 +86,7 @@ export default function HomePage() {
       </section>
 
       <section className="border-border border-y">
-        <div className="divide-border mx-auto grid max-w-7xl grid-cols-1 divide-y sm:grid-cols-4 sm:divide-x sm:divide-y-0 sm:px-6">
+        <div className="divide-border mx-auto grid max-w-7xl grid-cols-1 divide-y sm:grid-cols-3 sm:divide-x sm:divide-y-0 sm:px-6">
           {FACTS.map((fact) => (
             <div key={fact.label} className="px-4 py-8 text-center sm:px-6">
               <p className="text-foreground font-[family-name:var(--font-heading)] text-2xl font-bold sm:text-3xl">
