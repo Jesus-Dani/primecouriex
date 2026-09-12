@@ -43,11 +43,6 @@ export function MobileNav() {
               </li>
             ))}
           </ul>
-          <div className="border-border mt-3 border-t pt-3">
-            <a href="tel:+2349070535182" className="text-foreground text-sm font-medium">
-              +234 907 053 5182
-            </a>
-          </div>
         </nav>
       )}
     </div>
