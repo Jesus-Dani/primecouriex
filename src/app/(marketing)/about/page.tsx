@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { PageHeader } from "@/components/site/page-header";
 
@@ -74,6 +75,32 @@ export default function AboutPage() {
             create and no app to download; you book, we confirm, and you can check status any time
             with your reference number.
           </p>
+        </div>
+
+        <div className="mt-12 grid gap-8 sm:grid-cols-[200px_1fr] sm:gap-10">
+          <div className="w-40 sm:w-full">
+            <Image
+              src="/images/founder-osawaru-patrick-otasowie.jpeg"
+              alt="Osawaru Patrick Otasowie, Founder and CEO of Prime Couriex Express Ltd"
+              width={960}
+              height={1280}
+              className="aspect-[3/4] w-full object-cover object-top"
+            />
+          </div>
+          <div>
+            <p className="text-foreground font-[family-name:var(--font-heading)] text-lg font-bold">
+              Osawaru Patrick Otasowie
+            </p>
+            <p className="text-muted-foreground text-sm font-semibold tracking-[0.1em] uppercase">
+              Founder / CEO
+            </p>
+            <p className="text-muted-foreground mt-4">
+              Prime Couriex Express Ltd is built on the standard our founder set from day one: treat
+              every court process, every corporate record, and every package with the same
+              discretion and accountability we&apos;d want if it were ours. That standard is what
+              shapes how the team reviews, handles, and confirms every booking.
+            </p>
+          </div>
         </div>
 
         <div className="mt-12">
