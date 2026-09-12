@@ -8,6 +8,24 @@ export const metadata: Metadata = {
     "Courier and registry liaison services for corporate and institutional clients across the FCT, Abuja.",
 };
 
+const USE_CASES = [
+  {
+    title: "Inter-office and vendor documents",
+    detail:
+      'Signed contracts, board resolutions, tender and procurement documents, or invoices that need to move between your offices, branches, or vendors, with a reference number your team can follow rather than a courier\'s word that it "should have arrived."',
+  },
+  {
+    title: "Registry and government office retrieval",
+    detail:
+      "CAC filings, land registry documents, regulatory compliance paperwork, or anything else that requires standing in line at a government office on your behalf, so your staff don't have to make the trip.",
+  },
+  {
+    title: "HR and internal correspondence",
+    detail:
+      "Employment letters, disciplinary or termination notices, and other HR correspondence that needs a documented, discreet hand-off, the same standard we hold for legal process serving.",
+  },
+];
+
 const REASONS = [
   {
     title: "No account needed",
@@ -37,16 +55,27 @@ export default function CorporatePage() {
 
       <section className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
         <p className="text-foreground">
-          Whether you need routine courier runs, document retrieval from a government registry, or
-          process-serving support for your legal team, we book and confirm the same way for
-          corporate clients as we do for anyone else: fast, transparent, and without a lengthy
-          onboarding process.
+          We book and confirm the same way for corporate clients as we do for anyone else: fast,
+          transparent, and without a lengthy onboarding process. In practice, that covers a range of
+          things a general delivery app isn&apos;t built to handle carefully:
         </p>
 
-        <div className="border-border divide-border mt-10 divide-y border-t">
+        <div className="border-border divide-border mt-8 divide-y border-t">
+          {USE_CASES.map((u) => (
+            <div key={u.title} className="grid gap-2 py-6 sm:grid-cols-3 sm:gap-8">
+              <h2 className="text-foreground font-semibold">{u.title}</h2>
+              <p className="text-muted-foreground sm:col-span-2">{u.detail}</p>
+            </div>
+          ))}
+        </div>
+
+        <h2 className="text-foreground mt-12 font-[family-name:var(--font-heading)] text-xl font-semibold">
+          Why organisations book with us
+        </h2>
+        <div className="border-border divide-border mt-6 divide-y border-t">
           {REASONS.map((r) => (
             <div key={r.title} className="grid gap-2 py-6 sm:grid-cols-3 sm:gap-8">
-              <h2 className="text-foreground font-semibold">{r.title}</h2>
+              <h3 className="text-foreground font-semibold">{r.title}</h3>
               <p className="text-muted-foreground sm:col-span-2">{r.detail}</p>
             </div>
           ))}
@@ -55,9 +84,10 @@ export default function CorporatePage() {
         <div className="border-border bg-surface mt-12 border p-6">
           <h2 className="text-foreground font-semibold">Retainer and invoice billing</h2>
           <p className="text-muted-foreground mt-2 text-sm">
-            If your organisation needs a retainer or invoice-based billing arrangement, contact our
-            team directly — this is handled as an offline conversation outside the standard booking
-            flow.
+            Booking online is pay-per-delivery, same as any other client. If your organisation would
+            rather run a monthly retainer or be invoiced instead of paying per booking, contact our
+            team directly to set that up, it&apos;s handled as an offline arrangement outside the
+            standard booking flow.
           </p>
         </div>
 
