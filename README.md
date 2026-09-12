@@ -220,8 +220,21 @@ offline caching:
 
 ## Staff accounts
 
-There's no public staff sign-up (TRD §7 — a single, business-provisioned
-role in v1). Create staff accounts with:
+`/admin/login?mode=signup` lets anyone create a staff account with no
+invitation or approval step — open self-service sign-up, added at the
+client's explicit request.
+
+**This is a deliberate reversal of TRD §7's "no public sign-up, single
+business-provisioned role" control, made with full knowledge of the
+consequence: anyone who finds `/admin/login` can grant themselves access
+to the admin dashboard, which shows every customer's full contact details
+and, for process-serving bookings, legal case information (court name,
+suit number, parties involved).** That tradeoff was presented plainly and
+chosen anyway — this isn't an oversight, and it isn't the recommended
+posture for a system handling this kind of PII under NDPR. If that
+changes, `src/app/admin/login/actions.ts`'s `signup` function and the
+sign-up link on the login page are the two places to remove; the original
+CLI-only path still works unchanged:
 
 ```bash
 npm run create-staff-user -- "staff@example.com" "a-strong-password" "Full Name"

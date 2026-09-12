@@ -136,3 +136,11 @@ environment regardless.
 - [ ] Manual QA pass once Paystack is live: TRD §13's sandbox
       success/failure/webhook checklist (not yet run, since Paystack
       isn't integrated yet).
+- [ ] **Revisit before real customer data is in the system**: staff
+      sign-up at `/admin/login?mode=signup` is open to anyone, no
+      invitation needed — a deliberate client request that reverses
+      TRD §7's original single-provisioned-role control. Worth
+      reconfirming with the client before launch, since the dashboard
+      exposes every customer's contact details and legal case
+      information. See README's "Staff accounts" section for exactly
+      what to change if it needs tightening.
