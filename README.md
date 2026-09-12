@@ -247,6 +247,56 @@ offline caching:
   page that reads live pricing or booking status (`/booking`, `/track`,
   `/service-areas`) from any cache strategy, not be bolted on generically.
 
+## Architecture note — Paystack: redirect checkout, not Inline
+
+TRD §6 describes "Paystack Inline (popup) checkout." This uses Paystack's
+redirect-based Standard Checkout instead — same card and bank transfer
+support, same server-side-verification guarantee, different delivery
+mechanism — for a concrete reason: Inline requires the customer's email
+address in the browser to configure the popup, and the page it would run
+on (`/booking/confirmation/[ref]`) is deliberately reachable by anyone who
+has or guesses a reference number, with no PII shown, by design (see the
+comment on that page — it already avoids re-displaying name, phone,
+address, and legal case details for exactly this reason). Putting the
+customer's email there for Inline would undo that.
+
+How it works:
+
+- `src/lib/paystack.ts` — thin fetch wrappers around Paystack's REST API
+  (`/transaction/initialize`, `/transaction/verify`). No SDK dependency;
+  two endpoints don't need one.
+- `src/app/booking/confirmation/[ref]/actions.ts`'s `initiatePayment`
+  generates a fresh Paystack reference per attempt (`<booking
+reference>-<timestamp>`, since Paystack references must be unique and a
+  customer might retry after abandoning a checkout), stores it on the
+  booking, then redirects the browser straight to Paystack's hosted
+  checkout page. The customer's email goes from the database to Paystack
+  server-to-server — it's never rendered into the page.
+- Paystack redirects back to the same confirmation page with a `reference`
+  query param. The page verifies it server-side via `verifyTransaction()`
+  before showing anything as paid (TRD §6's "never trust the client
+  redirect alone").
+- `src/app/api/webhooks/paystack/route.ts` is the second, asynchronous
+  confirmation path — covers a customer closing the tab before the
+  redirect back completes. Verifies the `x-paystack-signature` header
+  (HMAC-SHA512 with the secret key) before trusting anything.
+- Both paths call the same `src/lib/confirm-payment.ts`, which checks the
+  transaction amount against `bookings.total_price` (not just the
+  reference) before marking a booking paid, and is idempotent — whichever
+  of the two paths arrives first wins, the second is a no-op.
+- **`NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY` ends up unused.** It's only needed
+  for client-side Paystack.js/Inline, which this design deliberately
+  avoids. Left in `.env.example` since it's harmless and the client
+  already provided it, but nothing reads it.
+- No automated refunds (TRD §6) — unchanged, still a manual Paystack
+  dashboard step. `paystack_reference` is shown on the admin booking
+  detail page specifically so staff have what they need to find the
+  transaction there.
+- **Before going live**, the Paystack dashboard needs the webhook URL
+  configured: `https://<production-domain>/api/webhooks/paystack`. Not
+  needed for local testing — the callback-page verify path covers that on
+  its own.
+
 ## Staff accounts
 
 `/admin/login?mode=signup` lets anyone create a staff account with no

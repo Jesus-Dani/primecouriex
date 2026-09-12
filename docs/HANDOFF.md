@@ -1,8 +1,10 @@
 # Handoff — Prime Couriex Express
 
-Status as of this document: Phases 1–4, 6, 7, and 8 (QA) are complete and
-live against the current Supabase project. Phase 5 (Paystack payment) is
-the one deliberately deferred piece — see "What's not done" below.
+Status as of this document: all 8 phases are complete and live against
+the current Supabase project, including Phase 5 (Paystack), which was
+deliberately built last per client instruction. See "What's not done"
+below for the handful of items that are genuinely open, none of which
+block using the site.
 
 This is a launch-readiness summary. It does not replace `docs/PRD.md`,
 `docs/TRD.md`, or `docs/UI_DESIGN_BRIEF.md` (the locked requirements), or
@@ -55,16 +57,28 @@ alongside those, not instead of them.
   clearly-marked placeholder — see "Open items" below), a documented
   breach-notification paragraph, and `booking_status_history` doubling
   as the access/change audit trail per TRD §10.2.
-
-## What's not done
-
-- **Paystack payment (PRD §11, TRD §6)** — deliberately deferred to
-  last, per explicit client instruction during the build ("keep going
-  and come back to Paystack at the end"). Every booking is currently
-  created with `payment_status: "unpaid"` and no payment step; this is
-  an honest incomplete state, not a broken one — nothing references
-  Paystack in application code yet, and the env var placeholders in
-  `.env.example` are unfilled. This is the next piece of work.
+- **Admin dashboard** expanded from a single booking queue into a
+  collapsible-sidebar layout with five pages: Dashboard (summary
+  stats), All Orders (the original queue, now showing contact info
+  inline), All Customers (derived — no customers table exists — one
+  row per distinct email), Staff, and Pricing (the district rate card
+  and urgent surcharge, previously Supabase-only, now editable inline).
+  See README's admin dashboard architecture note.
+- **Payment (PRD §11, TRD §6)**: optional Paystack payment on the
+  booking confirmation page, using redirect-based Standard Checkout
+  rather than the Inline popup TRD §6 describes, for a specific
+  security reason — see README's Paystack architecture note. Verified
+  server-side two ways (the callback-page redirect and a webhook),
+  amount-checked against the booking's stored price before marking
+  anything paid. Tested against the real Paystack sandbox: booking
+  creation → checkout redirect → the actual transaction appearing in
+  Paystack with the correct amount and metadata → webhook signature
+  verification (valid and invalid) → amount-mismatch rejection →
+  successful confirmation → idempotent re-confirmation. The one thing
+  not tested end-to-end is a completed card payment through Paystack's
+  own hosted page, since its bot-detection blocks headless browser
+  automation — everything up to and including that page, and
+  everything from the webhook onward, is verified.
 - **Google Maps distance pricing (PRD §10.1, TRD §5)** — dormant, not
   wired into the live booking flow, since pricing was switched to the
   district-rate model per client instruction. `GOOGLE_MAPS_SERVER_KEY`/
@@ -84,9 +98,9 @@ alongside those, not instead of them.
 
 ## Environment variables required at launch
 
-See `.env.example` for the full list with descriptions. Everything
-except the Google Maps and Paystack keys is already live and working
-against the current Supabase project. Before going live, Vercel needs:
+See `.env.example` for the full list with descriptions. Everything except
+Google Maps is already live and working against the current Supabase
+project. Before going live, Vercel needs:
 
 | Variable | Status |
 |---|---|
@@ -94,7 +108,8 @@ against the current Supabase project. Before going live, Vercel needs:
 | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Live |
 | `SUPABASE_SERVICE_ROLE_KEY` | Live — server-only, never expose to the browser |
 | `GOOGLE_MAPS_SERVER_KEY` / `NEXT_PUBLIC_GOOGLE_MAPS_CLIENT_KEY` | Not provisioned — only needed if pricing reverts to distance-based |
-| `PAYSTACK_SECRET_KEY` / `NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY` | Not provisioned — needed for Phase 5 |
+| `PAYSTACK_SECRET_KEY` | Live — **test-mode key**, swap for the live secret key before accepting real payments |
+| `NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY` | Provided but unused — see README's Paystack architecture note for why |
 
 ## Database
 
@@ -111,7 +126,11 @@ boundary, not RLS — see README's Supabase architecture note for why.
 
 ## Staff accounts
 
-No public sign-up. Provision staff with:
+Sign-up is open to anyone at `/admin/login?mode=signup` — a deliberate
+client request, not an oversight; see "Before going live" below and
+README's "Staff accounts" section for the full context and exactly what
+to change if it needs tightening. The original CLI path still works
+unchanged:
 
 ```bash
 npm run create-staff-user -- "staff@example.com" "a-strong-password" "Full Name"
@@ -127,15 +146,21 @@ environment regardless.
 
 ## Before going live — remaining checklist
 
-- [ ] Client decision + implementation on Phase 5 (Paystack).
+- [ ] Swap `PAYSTACK_SECRET_KEY` (and confirm `NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY`,
+      though it's unused) for live-mode keys once ready to accept real
+      payments — currently running in Paystack test mode.
+- [ ] Configure the webhook URL in the Paystack dashboard once deployed:
+      `https://<production-domain>/api/webhooks/paystack` (see README's
+      Paystack architecture note).
+- [ ] Complete one real end-to-end payment manually in a real browser
+      (entering test-card details on Paystack's hosted page) — the one
+      piece automated testing couldn't reach, since Paystack's bot
+      detection blocks headless browsers on that specific page.
 - [ ] Client confirmation of the data retention window + purge job
       implementation (see "What's not done").
 - [ ] Real DPO contact to replace the Privacy Policy placeholder.
 - [ ] Domain DNS pointed at Vercel (external dependency, tracked in TRD
       §11.2 — not a build task).
-- [ ] Manual QA pass once Paystack is live: TRD §13's sandbox
-      success/failure/webhook checklist (not yet run, since Paystack
-      isn't integrated yet).
 - [ ] **Revisit before real customer data is in the system**: staff
       sign-up at `/admin/login?mode=signup` is open to anyone, no
       invitation needed — a deliberate client request that reverses

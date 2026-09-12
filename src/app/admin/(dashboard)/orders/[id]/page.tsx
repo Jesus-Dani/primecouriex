@@ -102,6 +102,7 @@ export default async function BookingDetailPage({ params }: { params: Promise<{ 
               <Field label="Service type" value={booking.service_type.replace(/_/g, " ")} />
               <Field label="Delivery speed" value={booking.delivery_speed.replace(/_/g, " ")} />
               <Field label="Payment status" value={booking.payment_status} />
+              <Field label="Paystack reference" value={booking.paystack_reference} />
               <Field label="Pickup district" value={booking.pickup_district} />
               <Field label="Base fee" value={money(booking.base_price)} />
               <Field label="Urgent surcharge" value={money(booking.urgent_surcharge)} />
