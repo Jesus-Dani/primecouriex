@@ -23,12 +23,12 @@ export function SiteFooter() {
           <div>
             <p className="text-foreground font-semibold">Legal</p>
             <p className="mt-2">
-              <Link href="/terms" className="hover:text-foreground">
+              <Link href="/terms" className="hover:text-foreground inline-block py-1">
                 Terms and Conditions
               </Link>
             </p>
             <p>
-              <Link href="/privacy" className="hover:text-foreground">
+              <Link href="/privacy" className="hover:text-foreground inline-block py-1">
                 Privacy Policy
               </Link>
             </p>

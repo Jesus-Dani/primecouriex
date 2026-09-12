@@ -8,7 +8,7 @@ export default async function LoginPage({
   const { error } = await searchParams;
 
   return (
-    <div className="mx-auto flex min-h-svh max-w-sm flex-col justify-center px-4">
+    <main className="mx-auto flex min-h-svh max-w-sm flex-col justify-center px-4">
       <h1 className="text-foreground font-[family-name:var(--font-heading)] text-2xl font-bold">
         Staff sign in
       </h1>
@@ -52,6 +52,6 @@ export default async function LoginPage({
           Sign in
         </button>
       </form>
-    </div>
+    </main>
   );
 }
