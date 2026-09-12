@@ -4,7 +4,7 @@ import { NAV_LINKS } from "./nav-links";
 
 export function SiteHeader() {
   return (
-    <header className="bg-background border-border border-b">
+    <header className="bg-background border-border relative z-50 border-b">
       <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
         <Link
           href="/"
