@@ -1,8 +1,9 @@
 import type { BookingStatus } from "@/lib/supabase/types";
 
-// Semantic colors per UI_DESIGN_BRIEF.md §2.5 — used only for status/
-// validation, per that section's own rule, and always paired with a text
-// label (never color alone), per §8's accessibility baseline.
+// Shared between the admin dashboard and the public /track page. Semantic
+// colors per UI_DESIGN_BRIEF.md §2.5 — used only for status/validation, per
+// that section's own rule, and always paired with a text label (never color
+// alone), per §8's accessibility baseline.
 const STYLES: Record<BookingStatus, string> = {
   pending_review: "bg-warning-bg text-warning",
   confirmed: "bg-success-bg text-success",

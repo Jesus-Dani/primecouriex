@@ -126,6 +126,14 @@ export interface DistrictRateRow {
   updated_at: string;
 }
 
+// Backs the public /track rate limit (supabase/migrations/
+// 0005_track_lookup_attempts.sql) — never customer-facing.
+export interface TrackLookupAttemptRow {
+  id: string;
+  ip_address: string;
+  created_at: string;
+}
+
 export interface Database {
   public: {
     Tables: {
@@ -170,6 +178,12 @@ export interface Database {
         Update: Partial<DistrictRateRow>;
         Relationships: [];
       };
+      track_lookup_attempts: {
+        Row: TrackLookupAttemptRow;
+        Insert: Partial<TrackLookupAttemptRow>;
+        Update: Partial<TrackLookupAttemptRow>;
+        Relationships: [];
+      };
     };
     // @supabase/supabase-js's generic row-inference overloads expect these
     // keys to exist alongside Tables, even empty — omitting them silently
@@ -179,7 +193,16 @@ export interface Database {
     // empty section — plain `Record<string, never>` does not satisfy the
     // library's GenericSchema constraint the same way.
     Views: { [_ in never]: never };
-    Functions: { [_ in never]: never };
+    Functions: {
+      check_track_rate_limit: {
+        Args: {
+          p_ip_address: string;
+          p_window_minutes: number;
+          p_max_attempts: number;
+        };
+        Returns: boolean;
+      };
+    };
     Enums: { [_ in never]: never };
     CompositeTypes: { [_ in never]: never };
   };

@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { StatusBadge } from "@/components/admin/status-badge";
+import { StatusBadge } from "@/components/ui/status-badge";
 import { CopyField } from "@/components/admin/copy-field";
 import { ReviewActions } from "@/components/admin/review-actions";
 import { StatusTransitionActions } from "@/components/admin/status-transition-actions";

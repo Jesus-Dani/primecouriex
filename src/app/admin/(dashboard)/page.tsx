@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { StatusBadge } from "@/components/admin/status-badge";
+import { StatusBadge } from "@/components/ui/status-badge";
 import type { BookingRow, BookingStatus, ServiceType } from "@/lib/supabase/types";
 
 export const dynamic = "force-dynamic";

@@ -47,7 +47,7 @@ side by side so switching back later is a config change, not a rebuild:
   untouched, still fully tested.
 - `src/lib/pricing-district.ts` — the active engine. Flat per-district
   `standard_fee` + `return_copy_addon_fee` (`supabase/migrations/
-  0002_district_rates.sql`, seeded from the rate sheet) instead of a
+0002_district_rates.sql`, seeded from the rate sheet) instead of a
   distance formula. The flat ₦3,500 return-copy add-on from PRD §10.3 is
   superseded too — the rate sheet prices it per-district, from ₦3,500 up to
   ₦12,500. The urgent-express surcharge is untouched (still a flat ₦5,000
@@ -89,6 +89,38 @@ case by case:
 
 If you add more tables and hit this again elsewhere, the fix is the same
 pattern, not a deeper investigation.
+
+## Architecture note — public tracking page rate limiting
+
+The `/track` page (PRD §13, TRD §9) looks up a booking's status by reference
+number with no authentication, so it's rate-limited by IP to prevent
+brute-force enumeration of reference numbers: 10 attempts per 15-minute
+window, tracked in a `track_lookup_attempts` table
+(`supabase/migrations/0005_track_lookup_attempts.sql`).
+
+The check itself runs as a single Postgres function,
+`check_track_rate_limit` (`supabase/migrations/0006_track_rate_limit_function.sql`),
+called via `.rpc()` from `src/lib/track-booking.ts`, rather than as separate
+delete/insert/count calls from the app server comparing against a
+JS-computed timestamp. That's a deliberate fix for a real bug found in
+development: the original implementation computed the window cutoff with
+`new Date(Date.now() - WINDOW_MINUTES * 60_000)` in the app server and
+compared it against `created_at` values written by Postgres. In this dev
+sandbox those two clocks drifted by several hours, which silently made
+every attempt look like it was outside the window — the cleanup step wiped
+every row on every call, and the count check never matched anything, so
+rate limiting never triggered, with no error anywhere. Doing the whole
+prune/insert/count sequence inside a Postgres function, measured entirely
+by the database's own `now()`, removes the app-server clock from the
+equation. This isn't just a workaround for a quirky sandbox — a rate limit
+that silently stops working under any clock drift is a real weakness for a
+security control, so the fix is the correct design generally, not a local
+patch.
+
+`.rpc()` hits the same `@supabase/supabase-js` type-inference limit
+described above (its `Args` generic collapses rather than picking up the
+function's declared argument types), so it's called through the same
+narrowly-typed intermediate-assertion pattern used for `.insert()`.
 
 ## Getting started
 
