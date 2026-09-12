@@ -8,9 +8,9 @@ export const metadata: Metadata = {
   description: "Every district we cover across the Federal Capital Territory, Abuja.",
 };
 
-// See calculator/page.tsx — same reasoning: prices must never go stale
-// between deploys, since the database is the whole point of configurable
-// pricing (TRD §3.2).
+// Prices must never go stale between deploys, since the database is the
+// whole point of configurable pricing (TRD §3.2) — a statically prerendered
+// page would bake in whatever rates existed at build time.
 export const dynamic = "force-dynamic";
 
 export default async function ServiceAreasPage() {
@@ -21,7 +21,7 @@ export default async function ServiceAreasPage() {
       <PageHeader
         eyebrow="Coverage"
         title="Abuja Service Areas"
-        intro="We operate across the Federal Capital Territory, from the Central Business District out to Kwali and Gwagwalada. Pricing is based on the pickup district — pick yours below or use the price calculator for an instant estimate."
+        intro="We operate across the Federal Capital Territory, from the Central Business District out to Kwali and Gwagwalada. Pricing is based on the pickup district — find yours below for a starting price."
       />
 
       <section className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
@@ -51,16 +51,16 @@ export default async function ServiceAreasPage() {
 
         <div className="mt-8 flex flex-wrap gap-4">
           <Link
-            href="/calculator"
+            href="/booking"
             className="bg-primary hover:bg-primary-hover text-primary-foreground rounded-[var(--radius-control)] px-6 py-3 font-semibold"
           >
-            Get an Instant Quote
+            Book a Service
           </Link>
           <Link
-            href="/booking"
+            href="/contact"
             className="border-brand-text text-brand-text hover:bg-surface rounded-[var(--radius-control)] border px-6 py-3 font-semibold"
           >
-            Book a Service
+            Contact Us
           </Link>
         </div>
       </section>

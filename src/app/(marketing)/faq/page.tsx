@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 const FAQS = [
   {
     q: "How is pricing calculated?",
-    a: "Price is based on the district you're picking up from, plus a flat surcharge for urgent/express delivery and an optional return-copy add-on for legal bookings. Use the price calculator for an instant estimate before you book, with no obligation.",
+    a: "Price is based on the district you're picking up from, plus a flat surcharge for urgent/express delivery and an optional return-copy add-on for legal bookings. Check our Abuja Service Areas page for starting prices by district, or start a booking to see your exact price before you confirm.",
   },
   {
     q: "How quickly will my booking be reviewed?",

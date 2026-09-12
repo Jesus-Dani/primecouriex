@@ -12,9 +12,12 @@ alongside those, not instead of them.
 
 ## What's built
 
-- **Public site**: Home, About, Services, Abuja Service Areas, Delivery
-  Price Calculator, Booking, Contact, FAQ, Corporate, Terms, Privacy,
-  Track My Booking — all 12 pages from PRD §5.1/§8.
+- **Public site**: Home, About, Services, Abuja Service Areas, Booking,
+  Contact, FAQ, Corporate, Terms, Privacy, Track My Booking — 11 of the
+  12 pages from PRD §5.1/§8. The 12th, a standalone Delivery Price
+  Calculator, was removed per client instruction as redundant with the
+  Abuja Service Areas page's per-district pricing and the booking form's
+  own live estimate — see README's calculator architecture note.
 - **Booking flow**: all 5 service types from PRD §7.1 (process serving,
   registry liaison, corporate courier, same-day delivery, filing &
   compliance — PRD §5.1's summary text says "four service types" but its

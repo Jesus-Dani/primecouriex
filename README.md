@@ -62,10 +62,23 @@ side by side so switching back later is a config change, not a rebuild:
 - `rider_rate` on `district_rates` is the business's internal cost (source
   doc: "NOT FOR CLIENT DISTRIBUTION"). Never render it in customer-facing
   UI; it's there only for potential internal/admin-dashboard use.
-- The booking form and price calculator (Phase 4) use a pickup-district
-  dropdown for pricing, plus separate free-text pickup/delivery address
-  fields for the courier — client confirmed pricing is based on the pickup
-  district specifically, not delivery or an address-driven lookup.
+- The booking form (Phase 4) uses a pickup-district dropdown for pricing,
+  plus separate free-text pickup/delivery address fields for the courier —
+  client confirmed pricing is based on the pickup district specifically,
+  not delivery or an address-driven lookup.
+
+## Architecture note — standalone price calculator removed
+
+PRD §5.1/§10.5 specs a standalone Delivery Price Calculator page in
+addition to the in-flow booking-form estimate. The client asked for it to
+be removed as redundant: the Abuja Service Areas page already lists a
+starting price per district, and the booking form shows the exact price
+live before submission, so a third place calculating the same number
+added a page without adding information. Removed `/calculator`
+(`src/app/(marketing)/calculator/`) and its `PriceCalculatorForm`
+component, and updated every page that linked to it (Services,
+Service Areas, FAQ, Terms, nav) to point at Service Areas or the booking
+form instead. The booking form's own live estimate is untouched.
 
 ## Architecture note — Supabase JS type-inference limits
 

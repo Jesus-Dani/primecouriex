@@ -70,15 +70,18 @@ export default function ServicesPage() {
         <div className="border-border bg-surface mt-12 border p-6">
           <h2 className="text-foreground font-semibold">Not sure which service you need?</h2>
           <p className="text-muted-foreground mt-2 text-sm">
-            Use the price calculator for an instant estimate, or contact us and we&apos;ll point you
-            in the right direction.
+            Check the price for your district on our{" "}
+            <Link href="/service-areas" className="text-brand-text underline">
+              Abuja Service Areas
+            </Link>{" "}
+            page, or contact us and we&apos;ll point you in the right direction.
           </p>
           <div className="mt-4 flex flex-wrap gap-4">
             <Link
-              href="/calculator"
+              href="/service-areas"
               className="bg-primary hover:bg-primary-hover text-primary-foreground rounded-[var(--radius-control)] px-5 py-2.5 text-sm font-semibold"
             >
-              Price Calculator
+              Check Pricing
             </Link>
             <Link
               href="/contact"

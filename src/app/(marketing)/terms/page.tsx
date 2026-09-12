@@ -51,8 +51,8 @@ export default function TermsPage() {
             </p>
             <p>
               The price shown and confirmed at booking is final and will not be silently changed
-              afterward. Use the price calculator on this site for an instant, no-obligation
-              estimate before booking.
+              afterward. You can see your exact price in the booking form before you confirm, with
+              no obligation.
             </p>
           </div>
 

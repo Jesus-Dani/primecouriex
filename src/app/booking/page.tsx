@@ -11,8 +11,8 @@ export const metadata: Metadata = {
     "Book a courier, process serving, or registry liaison service across the FCT, Abuja.",
 };
 
-// Pricing must always reflect the live database (TRD §3.2) — see the same
-// note on the price calculator page.
+// Pricing must always reflect the live database (TRD §3.2) — a statically
+// prerendered page would bake in whatever rates existed at build time.
 export const dynamic = "force-dynamic";
 
 export default async function BookingPage({
