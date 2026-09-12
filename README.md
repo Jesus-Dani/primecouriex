@@ -112,10 +112,11 @@ restriction and you want the faster Turbopack dev server, use
 ## Database setup
 
 Apply the SQL in `supabase/migrations/`, in order (`0001_init.sql`,
-`0002_district_rates.sql`, `0003_booking_pickup_district.sql`), and then
-`supabase/seed.sql`, via the Supabase SQL Editor (or `supabase db push` /
-`psql` if you have the Supabase CLI linked or a direct connection string).
-There's no Prisma migration step — these are plain Postgres DDL/DML files.
+`0002_district_rates.sql`, `0003_booking_pickup_district.sql`,
+`0004_booking_notification_fields.sql`), and then `supabase/seed.sql`, via
+the Supabase SQL Editor (or `supabase db push` / `psql` if you have the
+Supabase CLI linked or a direct connection string). There's no Prisma
+migration step — these are plain Postgres DDL/DML files.
 
 If a query starts failing right after applying a migration with an error
 like `Could not find the '<column>' column of '<table>' in the schema
@@ -123,6 +124,30 @@ cache`, that's PostgREST's schema cache being stale, not a real problem —
 it refreshes automatically within a short while (or reload it immediately
 from the Supabase dashboard, or via `NOTIFY pgrst, 'reload schema';` in the
 SQL Editor if you have a moment to spare).
+
+## Architecture note — admin dashboard
+
+Built per TRD §7/§8: a filterable booking queue, a detail view with every
+field (including conditional legal fields) and the computed pricing
+breakdown, and the review actions (Approve, Reject-with-reason, manual
+status transitions, Mark as Notified). Two things worth knowing:
+
+- **No dark mode.** UI_DESIGN_BRIEF.md §5 called out the admin dashboard
+  specifically as the priority dark-mode surface, but the client's earlier
+  "stick to only one theme" instruction (which removed dark mode sitewide)
+  supersedes that — the dashboard uses the same single light theme as the
+  public site.
+- **Every action is its own Server Action, and each one re-checks auth
+  itself** (`requireStaffId()` in `.../bookings/[id]/actions.ts`) rather
+  than relying solely on the middleware/proxy redirect. Server Actions can
+  be invoked directly, not only through the rendered page, so per this
+  project's established model (see the Supabase architecture note above)
+  the action itself is the real authorization boundary.
+- `notified_channel`/`notified_note` aren't logged to
+  `booking_status_history` — "notified" isn't one of the `status` enum
+  values (TRD's history requirement is specifically about `status`
+  transitions), so `bookings.notified_at`/`notified_by_staff_id`/
+  `notified_channel`/`notified_note` are the audit record for that action.
 
 ## Staff accounts
 

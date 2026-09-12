@@ -72,6 +72,11 @@ export interface BookingRow {
   rejection_reason: string | null;
   notified_at: string | null;
   notified_by_staff_id: string | null;
+  // Added by supabase/migrations/0004_booking_notification_fields.sql —
+  // TRD §8's "Mark as Notified" channel/notes, missing from the originally
+  // locked schema.
+  notified_channel: string | null;
+  notified_note: string | null;
   confirmed_by_staff_id: string | null;
 
   client_confirmation_accepted: boolean;
