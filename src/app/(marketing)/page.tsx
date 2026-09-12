@@ -113,44 +113,23 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
-        <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
-          <div>
-            <p className={EYEBROW}>How it works</p>
-            <h2 className="text-foreground mt-2 font-[family-name:var(--font-heading)] text-2xl font-bold sm:text-3xl">
-              Simple, secure, reliable
-            </h2>
-            <div className="border-border divide-border mt-8 divide-y border-t">
-              {HOW_IT_WORKS.map((item) => (
-                <div key={item.step} className="flex items-start gap-6 py-6">
-                  <span className="text-brand-text font-[family-name:var(--font-heading)] text-2xl font-bold">
-                    {item.step}
-                  </span>
-                  <div>
-                    <p className="text-foreground font-semibold">{item.title}</p>
-                    <p className="text-muted-foreground mt-1 text-sm">{item.detail}</p>
-                  </div>
-                </div>
-              ))}
+      <section className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
+        <p className={EYEBROW}>How it works</p>
+        <h2 className="text-foreground mt-2 font-[family-name:var(--font-heading)] text-2xl font-bold sm:text-3xl">
+          Simple, secure, reliable
+        </h2>
+        <div className="border-border divide-border mt-10 divide-y border-t">
+          {HOW_IT_WORKS.map((item) => (
+            <div key={item.step} className="flex items-start gap-6 py-6">
+              <span className="text-brand-text font-[family-name:var(--font-heading)] text-2xl font-bold">
+                {item.step}
+              </span>
+              <div>
+                <p className="text-foreground font-semibold">{item.title}</p>
+                <p className="text-muted-foreground mt-1 text-sm">{item.detail}</p>
+              </div>
             </div>
-          </div>
-
-          <div className="border-border bg-surface rounded-[var(--radius-card)] border p-8">
-            <p className={EYEBROW}>Already booked?</p>
-            <h2 className="text-foreground mt-2 font-[family-name:var(--font-heading)] text-xl font-semibold">
-              Track your delivery
-            </h2>
-            <p className="text-muted-foreground mt-2 text-sm">
-              Check your booking&apos;s current status any time with your reference number, no
-              account needed.
-            </p>
-            <Link
-              href="/track"
-              className="bg-primary hover:bg-primary-hover text-primary-foreground mt-6 inline-block rounded-[var(--radius-control)] px-6 py-3 text-sm font-semibold"
-            >
-              Track My Booking
-            </Link>
-          </div>
+          ))}
         </div>
       </section>
     </>
