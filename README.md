@@ -194,6 +194,30 @@ status transitions, Mark as Notified). Two things worth knowing:
   transitions), so `bookings.notified_at`/`notified_by_staff_id`/
   `notified_channel`/`notified_note` are the audit record for that action.
 
+## Architecture note — installable PWA (not in PRD/TRD)
+
+The client asked for the site to "feel like a progressive web app" —
+installable to a phone/desktop home screen with its own icon and a
+standalone window (no browser address bar), not something either locked
+document specifies. Scoped deliberately to installability only, no
+offline caching:
+
+- `src/app/manifest.ts` (Next.js's native manifest file convention —
+  served at `/manifest.webmanifest`), `viewport.themeColor` and
+  `metadata.appleWebApp` in `src/app/layout.tsx`, plus `src/app/icon.png`
+  / `src/app/apple-icon.png` / `favicon.ico` (all generated from the
+  client's logo mark via `sharp`, including a maskable variant with
+  safe-zone padding for Android's adaptive-icon masks).
+- **No service worker, intentionally.** A caching service worker is what
+  actually makes an app "feel" offline-capable, but this site's pricing
+  and booking-status pages are `force-dynamic` by design specifically so
+  they always reflect the live database (see the pricing and Supabase
+  type-inference notes above) — caching them would reintroduce the exact
+  staleness problem those `force-dynamic` exports exist to prevent. If
+  offline support is wanted later, it needs to explicitly exclude every
+  page that reads live pricing or booking status (`/booking`, `/track`,
+  `/service-areas`) from any cache strategy, not be bolted on generically.
+
 ## Staff accounts
 
 There's no public staff sign-up (TRD §7 — a single, business-provisioned

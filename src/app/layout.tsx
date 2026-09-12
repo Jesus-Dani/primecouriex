@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
 
@@ -12,6 +12,13 @@ export const metadata: Metadata = {
   title: "Prime Couriex Express Ltd",
   description:
     "Process serving, registry liaison, corporate courier, and same-day document delivery across the Federal Capital Territory, Abuja.",
+  appleWebApp: {
+    title: "Prime Couriex",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#12234c",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
