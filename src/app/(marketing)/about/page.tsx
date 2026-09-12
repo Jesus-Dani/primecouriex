@@ -54,6 +54,39 @@ export default function AboutPage() {
         intro="Prime Couriex Express Ltd delivers documents and packages across the Federal Capital Territory, Abuja, with the discretion and accountability that legal and corporate work demands."
       />
 
+      <section className="border-border bg-surface border-y">
+        <div className="mx-auto grid max-w-4xl gap-8 px-4 py-12 sm:grid-cols-[280px_1fr] sm:gap-12 sm:px-6 sm:py-16">
+          <div className="mx-auto w-48 sm:mx-0 sm:w-full">
+            <Image
+              src="/images/founder-osawaru-patrick-otasowie.jpeg"
+              alt="Osawaru Patrick Otasowie, Founder and CEO of Prime Couriex Express Ltd"
+              width={960}
+              height={1280}
+              priority
+              className="aspect-[3/4] w-full object-cover"
+            />
+          </div>
+          <div className="flex flex-col justify-center text-center sm:text-left">
+            <p className="text-brand-text text-xs font-semibold tracking-[0.2em] uppercase">
+              Meet the founder
+            </p>
+            <p className="text-foreground mt-2 font-[family-name:var(--font-heading)] text-2xl font-bold sm:text-3xl">
+              Osawaru Patrick Otasowie
+            </p>
+            <p className="text-muted-foreground mt-1 text-sm font-semibold tracking-[0.1em] uppercase">
+              Founder &amp; CEO
+            </p>
+            <p className="text-foreground mt-5 text-base sm:text-lg">
+              Prime Couriex Express Ltd is built on the standard our founder set from day one: treat
+              every court process, every corporate record, and every package with the same
+              discretion and accountability we&apos;d want if it were ours. That standard is what
+              shapes how the team reviews, handles, and confirms every booking, from the first one
+              to the most recent.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
         <div className="text-foreground space-y-4">
           <p>
@@ -75,32 +108,6 @@ export default function AboutPage() {
             create and no app to download; you book, we confirm, and you can check status any time
             with your reference number.
           </p>
-        </div>
-
-        <div className="mt-12 grid gap-8 sm:grid-cols-[200px_1fr] sm:gap-10">
-          <div className="w-40 sm:w-full">
-            <Image
-              src="/images/founder-osawaru-patrick-otasowie.jpeg"
-              alt="Osawaru Patrick Otasowie, Founder and CEO of Prime Couriex Express Ltd"
-              width={960}
-              height={1280}
-              className="aspect-[3/4] w-full object-cover object-top"
-            />
-          </div>
-          <div>
-            <p className="text-foreground font-[family-name:var(--font-heading)] text-lg font-bold">
-              Osawaru Patrick Otasowie
-            </p>
-            <p className="text-muted-foreground text-sm font-semibold tracking-[0.1em] uppercase">
-              Founder / CEO
-            </p>
-            <p className="text-muted-foreground mt-4">
-              Prime Couriex Express Ltd is built on the standard our founder set from day one: treat
-              every court process, every corporate record, and every package with the same
-              discretion and accountability we&apos;d want if it were ours. That standard is what
-              shapes how the team reviews, handles, and confirms every booking.
-            </p>
-          </div>
         </div>
 
         <div className="mt-12">
