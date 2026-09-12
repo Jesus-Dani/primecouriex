@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { approveBooking, rejectBooking } from "@/app/admin/(dashboard)/bookings/[id]/actions";
+import { approveBooking, rejectBooking } from "@/app/admin/(dashboard)/orders/[id]/actions";
 
 export function ReviewActions({ bookingId }: { bookingId: string }) {
   const [showReject, setShowReject] = useState(false);

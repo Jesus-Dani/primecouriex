@@ -1,147 +1,136 @@
 import Link from "next/link";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { StatusBadge } from "@/components/ui/status-badge";
-import type { BookingRow, BookingStatus, ServiceType } from "@/lib/supabase/types";
+import type { BookingRow } from "@/lib/supabase/types";
 
 export const dynamic = "force-dynamic";
 
-const STATUS_OPTIONS: BookingStatus[] = [
-  "pending_review",
-  "confirmed",
-  "in_transit",
-  "delivered",
-  "rejected",
-  "cancelled",
-];
-
-const SERVICE_OPTIONS: { value: ServiceType; label: string }[] = [
-  { value: "process_serving", label: "Process Serving & Legal Documents" },
-  { value: "registry_liaison", label: "Registry Liaison & Document Retrieval" },
-  { value: "corporate_courier", label: "Corporate & Institutional Courier" },
-  { value: "same_day_delivery", label: "Same-day Document Delivery" },
-  { value: "filing_compliance", label: "Filing & Compliance" },
-];
-
-type QueueRow = Pick<
+type RecentRow = Pick<
   BookingRow,
-  "id" | "reference_number" | "customer_name" | "service_type" | "status" | "created_at"
+  "id" | "reference_number" | "customer_name" | "status" | "created_at"
 >;
 
-const selectClass =
-  "border-border bg-background text-foreground focus-visible:ring-focus-ring w-full rounded-[var(--radius-control)] border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:outline-none";
-
-export default async function AdminPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ status?: string; service_type?: string; from?: string; to?: string }>;
-}) {
-  const { status, service_type, from, to } = await searchParams;
+export default async function DashboardPage() {
   const admin = createAdminClient();
 
-  let query = admin
-    .from("bookings")
-    .select("id, reference_number, customer_name, service_type, status, created_at")
-    .order("created_at", { ascending: false });
+  const startOfToday = new Date();
+  startOfToday.setHours(0, 0, 0, 0);
+  const startOfWeek = new Date(startOfToday);
+  startOfWeek.setDate(startOfWeek.getDate() - 6);
 
-  if (status) query = query.eq("status", status);
-  if (service_type) query = query.eq("service_type", service_type);
-  if (from) query = query.gte("created_at", `${from}T00:00:00.000Z`);
-  if (to) query = query.lte("created_at", `${to}T23:59:59.999Z`);
+  const [
+    { count: totalCount },
+    { count: pendingCount },
+    { count: todayCount },
+    { count: weekCount },
+    { data: recent },
+  ] = await Promise.all([
+    admin.from("bookings").select("*", { count: "exact", head: true }),
+    admin
+      .from("bookings")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "pending_review"),
+    admin
+      .from("bookings")
+      .select("*", { count: "exact", head: true })
+      .gte("created_at", startOfToday.toISOString()),
+    admin
+      .from("bookings")
+      .select("*", { count: "exact", head: true })
+      .gte("created_at", startOfWeek.toISOString()),
+    admin
+      .from("bookings")
+      .select("id, reference_number, customer_name, status, created_at")
+      .order("created_at", { ascending: false })
+      .limit(8)
+      .returns<RecentRow[]>(),
+  ]);
 
-  const { data: bookings, error } = await query.returns<QueueRow[]>();
+  const stats = [
+    {
+      label: "Pending review",
+      value: pendingCount ?? 0,
+      href: "/admin/orders?status=pending_review",
+    },
+    { label: "Booked today", value: todayCount ?? 0, href: "/admin/orders" },
+    { label: "Booked this week", value: weekCount ?? 0, href: "/admin/orders" },
+    { label: "Total bookings", value: totalCount ?? 0, href: "/admin/orders" },
+  ];
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
       <h1 className="text-foreground font-[family-name:var(--font-heading)] text-2xl font-bold">
-        Booking queue
+        Dashboard
       </h1>
 
-      <form method="get" className="mt-6 grid gap-4 sm:grid-cols-4">
-        <select name="status" defaultValue={status ?? ""} className={selectClass}>
-          <option value="">All statuses</option>
-          {STATUS_OPTIONS.map((s) => (
-            <option key={s} value={s}>
-              {s.replace(/_/g, " ")}
-            </option>
-          ))}
-        </select>
-        <select name="service_type" defaultValue={service_type ?? ""} className={selectClass}>
-          <option value="">All services</option>
-          {SERVICE_OPTIONS.map((s) => (
-            <option key={s.value} value={s.value}>
-              {s.label}
-            </option>
-          ))}
-        </select>
-        <input type="date" name="from" defaultValue={from ?? ""} className={selectClass} />
-        <input type="date" name="to" defaultValue={to ?? ""} className={selectClass} />
-        <div className="flex gap-2 sm:col-span-4">
-          <button
-            type="submit"
-            className="bg-primary hover:bg-primary-hover text-primary-foreground rounded-[var(--radius-control)] px-4 py-2 text-sm font-semibold"
-          >
-            Filter
-          </button>
+      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {stats.map((s) => (
           <Link
-            href="/admin"
-            className="border-border text-foreground hover:bg-surface rounded-[var(--radius-control)] border px-4 py-2 text-sm font-semibold"
+            key={s.label}
+            href={s.href}
+            className="border-border hover:bg-surface block border p-5"
           >
-            Clear
+            <p className="text-foreground font-[family-name:var(--font-heading)] text-3xl font-bold">
+              {s.value}
+            </p>
+            <p className="text-muted-foreground mt-1 text-sm">{s.label}</p>
+          </Link>
+        ))}
+      </div>
+
+      <div className="mt-10">
+        <div className="flex items-center justify-between">
+          <h2 className="text-foreground font-semibold">Recent bookings</h2>
+          <Link
+            href="/admin/orders"
+            className="text-brand-text text-sm font-semibold hover:underline"
+          >
+            View all orders →
           </Link>
         </div>
-      </form>
-
-      <div className="border-border mt-8 overflow-x-auto border">
-        <table className="w-full text-left text-sm">
-          <thead className="bg-surface text-muted-foreground text-xs uppercase">
-            <tr>
-              <th className="px-4 py-3 font-semibold">Reference</th>
-              <th className="px-4 py-3 font-semibold">Customer</th>
-              <th className="px-4 py-3 font-semibold">Service</th>
-              <th className="px-4 py-3 font-semibold">Status</th>
-              <th className="px-4 py-3 font-semibold">Submitted</th>
-            </tr>
-          </thead>
-          <tbody className="divide-border divide-y">
-            {error && (
+        <div className="border-border mt-4 overflow-x-auto border">
+          <table className="w-full text-left text-sm">
+            <thead className="bg-surface text-muted-foreground text-xs uppercase">
               <tr>
-                <td colSpan={5} className="text-error px-4 py-6">
-                  Failed to load bookings: {error.message}
-                </td>
+                <th className="px-4 py-3 font-semibold">Reference</th>
+                <th className="px-4 py-3 font-semibold">Customer</th>
+                <th className="px-4 py-3 font-semibold">Status</th>
+                <th className="px-4 py-3 font-semibold">Submitted</th>
               </tr>
-            )}
-            {!error && bookings?.length === 0 && (
-              <tr>
-                <td colSpan={5} className="text-muted-foreground px-4 py-6">
-                  No bookings match these filters.
-                </td>
-              </tr>
-            )}
-            {bookings?.map((b) => (
-              <tr key={b.id} className="hover:bg-surface">
-                <td className="px-4 py-3">
-                  <Link
-                    href={`/admin/bookings/${b.id}`}
-                    className="text-brand-text font-medium hover:underline"
-                  >
-                    {b.reference_number}
-                  </Link>
-                </td>
-                <td className="text-foreground px-4 py-3">{b.customer_name}</td>
-                <td className="text-foreground px-4 py-3">{b.service_type.replace(/_/g, " ")}</td>
-                <td className="px-4 py-3">
-                  <StatusBadge status={b.status} />
-                </td>
-                <td className="text-muted-foreground px-4 py-3">
-                  {new Date(b.created_at).toLocaleString("en-NG", {
-                    dateStyle: "medium",
-                    timeStyle: "short",
-                  })}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-border divide-y">
+              {(!recent || recent.length === 0) && (
+                <tr>
+                  <td colSpan={4} className="text-muted-foreground px-4 py-6">
+                    No bookings yet.
+                  </td>
+                </tr>
+              )}
+              {recent?.map((b) => (
+                <tr key={b.id} className="hover:bg-surface">
+                  <td className="px-4 py-3">
+                    <Link
+                      href={`/admin/orders/${b.id}`}
+                      className="text-brand-text font-medium hover:underline"
+                    >
+                      {b.reference_number}
+                    </Link>
+                  </td>
+                  <td className="text-foreground px-4 py-3">{b.customer_name}</td>
+                  <td className="px-4 py-3">
+                    <StatusBadge status={b.status} />
+                  </td>
+                  <td className="text-muted-foreground px-4 py-3">
+                    {new Date(b.created_at).toLocaleString("en-NG", {
+                      dateStyle: "medium",
+                      timeStyle: "short",
+                    })}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

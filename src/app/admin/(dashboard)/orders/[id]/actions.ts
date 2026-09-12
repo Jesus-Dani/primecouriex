@@ -67,8 +67,8 @@ async function recordStatusChange(
 }
 
 function revalidateBooking(bookingId: string) {
-  revalidatePath("/admin");
-  revalidatePath(`/admin/bookings/${bookingId}`);
+  revalidatePath("/admin/orders");
+  revalidatePath(`/admin/orders/${bookingId}`);
 }
 
 async function transitionStatus(

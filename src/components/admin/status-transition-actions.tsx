@@ -6,7 +6,7 @@ import {
   markInTransit,
   markDelivered,
   cancelBooking,
-} from "@/app/admin/(dashboard)/bookings/[id]/actions";
+} from "@/app/admin/(dashboard)/orders/[id]/actions";
 import type { BookingStatus } from "@/lib/supabase/types";
 
 const ACTIONS: Partial<

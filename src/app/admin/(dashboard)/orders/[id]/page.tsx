@@ -61,8 +61,8 @@ export default async function BookingDetailPage({ params }: { params: Promise<{ 
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
-      <Link href="/admin" className="text-brand-text text-sm font-semibold hover:underline">
-        ← Back to queue
+      <Link href="/admin/orders" className="text-brand-text text-sm font-semibold hover:underline">
+        ← Back to orders
       </Link>
 
       <div className="mt-4 flex flex-wrap items-center justify-between gap-4">

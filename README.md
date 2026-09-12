@@ -183,7 +183,7 @@ status transitions, Mark as Notified). Two things worth knowing:
   supersedes that — the dashboard uses the same single light theme as the
   public site.
 - **Every action is its own Server Action, and each one re-checks auth
-  itself** (`requireStaffId()` in `.../bookings/[id]/actions.ts`) rather
+  itself** (`requireStaffId()` in `.../orders/[id]/actions.ts`) rather
   than relying solely on the middleware/proxy redirect. Server Actions can
   be invoked directly, not only through the rendered page, so per this
   project's established model (see the Supabase architecture note above)
@@ -193,6 +193,35 @@ status transitions, Mark as Notified). Two things worth knowing:
   values (TRD's history requirement is specifically about `status`
   transitions), so `bookings.notified_at`/`notified_by_staff_id`/
   `notified_channel`/`notified_note` are the audit record for that action.
+
+### Multi-page layout (not in PRD/TRD)
+
+Client asked for the dashboard to grow beyond the single booking queue: a
+collapsible sidebar (persists collapsed/expanded via localStorage, off-canvas
+drawer below the `xl` breakpoint — `src/components/admin/sidebar.tsx`), and
+customer contact info surfaced more directly rather than only on the
+booking detail page. Five pages now live under `src/app/admin/(dashboard)/`:
+
+- **Dashboard** (`/admin`) — summary counts (pending review, booked
+  today/this week, total) and a recent-bookings list. New landing page
+  after login; the booking queue itself moved to...
+- **All Orders** (`/admin/orders`, was the dashboard root) — same
+  filterable queue as before, now also showing phone/email inline instead
+  of only the customer's name. `/admin/orders/[id]` is the unchanged
+  booking detail page (moved from `/admin/bookings/[id]`).
+- **All Customers** (`/admin/customers`) — there's no customers table
+  (PRD §5.2 puts customer accounts out of scope), so this derives one row
+  per distinct email across all bookings, using the most recent booking's
+  contact fields for display. Clicking a customer's booking count links to
+  Orders pre-filtered by that email (`?customer=<email>`).
+- **Staff** (`/admin/staff`) — lists `staff_users`, relevant now that
+  sign-up is open (see "Staff accounts" below) so anyone with access can
+  see who else has it.
+- **Pricing** (`/admin/pricing`) — the district rate card and urgent
+  surcharge, previously editable only through Supabase directly. Inline
+  per-row Server Actions (`src/app/admin/(dashboard)/pricing/actions.ts`);
+  blank fields save as `null` ("price on request"), matching the existing
+  `district_rates` convention, rather than coercing to 0.
 
 ## Architecture note — installable PWA (not in PRD/TRD)
 

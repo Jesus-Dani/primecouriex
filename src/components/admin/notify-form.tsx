@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { markNotified } from "@/app/admin/(dashboard)/bookings/[id]/actions";
+import { markNotified } from "@/app/admin/(dashboard)/orders/[id]/actions";
 
 const CHANNELS = ["Phone call", "WhatsApp", "Email", "SMS"];
 
