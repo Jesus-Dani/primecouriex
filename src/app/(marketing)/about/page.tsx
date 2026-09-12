@@ -66,7 +66,7 @@ export default function AboutPage() {
               className="aspect-[3/4] w-full object-cover"
             />
           </div>
-          <div className="flex flex-col justify-center text-center sm:text-left">
+          <div className="flex flex-col justify-start text-center sm:text-left">
             <p className="text-brand-text text-xs font-semibold tracking-[0.2em] uppercase">
               Meet the founder
             </p>
