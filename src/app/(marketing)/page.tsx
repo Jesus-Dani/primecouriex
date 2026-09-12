@@ -87,9 +87,9 @@ export default function HomePage() {
       </section>
 
       <section className="border-border border-y">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-6 px-4 py-10 sm:px-6 md:grid-cols-4">
+        <div className="divide-border mx-auto grid max-w-7xl grid-cols-1 divide-y sm:grid-cols-4 sm:divide-x sm:divide-y-0 sm:px-6">
           {FACTS.map((fact) => (
-            <div key={fact.label}>
+            <div key={fact.label} className="px-4 py-8 text-center sm:px-6">
               <p className="text-foreground font-[family-name:var(--font-heading)] text-2xl font-bold sm:text-3xl">
                 {fact.value}
               </p>
