@@ -124,30 +124,46 @@ export interface Database {
         Insert: Omit<BookingRow, "id" | "created_at" | "updated_at"> &
           Partial<Pick<BookingRow, "id" | "created_at" | "updated_at">>;
         Update: Partial<BookingRow>;
+        Relationships: [];
       };
       staff_users: {
         Row: StaffUserRow;
         Insert: Omit<StaffUserRow, "created_at"> & Partial<Pick<StaffUserRow, "created_at">>;
         Update: Partial<StaffUserRow>;
+        Relationships: [];
       };
       booking_status_history: {
         Row: BookingStatusHistoryRow;
         Insert: Omit<BookingStatusHistoryRow, "id" | "created_at"> &
           Partial<Pick<BookingStatusHistoryRow, "id" | "created_at">>;
         Update: Partial<BookingStatusHistoryRow>;
+        Relationships: [];
       };
       pricing_config: {
         Row: PricingConfigRow;
         Insert: Omit<PricingConfigRow, "id" | "updated_at"> &
           Partial<Pick<PricingConfigRow, "id" | "updated_at">>;
         Update: Partial<PricingConfigRow>;
+        Relationships: [];
       };
       district_rates: {
         Row: DistrictRateRow;
         Insert: Omit<DistrictRateRow, "id" | "created_at" | "updated_at"> &
           Partial<Pick<DistrictRateRow, "id" | "created_at" | "updated_at">>;
         Update: Partial<DistrictRateRow>;
+        Relationships: [];
       };
     };
+    // @supabase/supabase-js's generic row-inference overloads expect these
+    // keys to exist alongside Tables, even empty — omitting them silently
+    // breaks type inference (e.g. .single() resolving to `never`) on some
+    // queries rather than raising a clear error. `{ [_ in never]: never }`
+    // matches exactly what `supabase gen types typescript` emits for an
+    // empty section — plain `Record<string, never>` does not satisfy the
+    // library's GenericSchema constraint the same way.
+    Views: { [_ in never]: never };
+    Functions: { [_ in never]: never };
+    Enums: { [_ in never]: never };
+    CompositeTypes: { [_ in never]: never };
   };
 }
