@@ -136,38 +136,20 @@ export default function HomePage() {
           </div>
 
           <div className="border-border bg-surface rounded-[var(--radius-card)] border p-8">
-            <p className={EYEBROW}>Track your delivery</p>
+            <p className={EYEBROW}>Already booked?</p>
             <h2 className="text-foreground mt-2 font-[family-name:var(--font-heading)] text-xl font-semibold">
-              Check your booking status
+              Track your delivery
             </h2>
             <p className="text-muted-foreground mt-2 text-sm">
-              Enter your booking reference to check its current status.
+              Check your booking&apos;s current status any time with your reference number, no
+              account needed.
             </p>
-            <form action="/track" method="get" className="mt-6 flex flex-col gap-3 sm:flex-row">
-              <label htmlFor="home-track-ref" className="sr-only">
-                Booking reference number
-              </label>
-              <input
-                id="home-track-ref"
-                name="ref"
-                type="text"
-                placeholder="e.g. PCX-2026-000123"
-                className="border-border bg-background text-foreground placeholder:text-placeholder-foreground focus-visible:ring-focus-ring w-full rounded-[var(--radius-control)] border px-4 py-3 text-sm focus-visible:ring-2 focus-visible:outline-none"
-              />
-              <button
-                type="submit"
-                className="bg-primary hover:bg-primary-hover text-primary-foreground shrink-0 rounded-[var(--radius-control)] px-5 py-3 text-sm font-semibold"
-              >
-                Track Now
-              </button>
-            </form>
-            <p className="text-muted-foreground mt-4 text-xs">
-              Need help instead?{" "}
-              <Link href="/contact" className="text-brand-text underline">
-                Contact our team
-              </Link>
-              .
-            </p>
+            <Link
+              href="/track"
+              className="bg-primary hover:bg-primary-hover text-primary-foreground mt-6 inline-block rounded-[var(--radius-control)] px-6 py-3 text-sm font-semibold"
+            >
+              Track My Booking
+            </Link>
           </div>
         </div>
       </section>
