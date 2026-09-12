@@ -1,10 +1,11 @@
 # Prime Couriex Express — Website & Online Booking Platform
 
 Next.js (App Router) + TypeScript application for Prime Couriex Express Ltd:
-public marketing site, online booking flow with distance-based pricing,
-optional Paystack payment, staff admin dashboard, and public booking
-tracking. Built against `docs/PRD.md` and `docs/TRD.md` (locked
-requirements) and `docs/UI_DESIGN_BRIEF.md` (visual direction).
+public marketing site, online booking flow with flat per-district pricing
+("for now" — see the pricing architecture note below), optional Paystack
+payment, staff admin dashboard, and public booking tracking. Built against
+`docs/PRD.md` and `docs/TRD.md` (locked requirements) and
+`docs/UI_DESIGN_BRIEF.md` (visual direction).
 
 ## Architecture note — deviation from TRD §2/§3/§7
 
@@ -156,12 +157,14 @@ restriction and you want the faster Turbopack dev server, use
 
 ## Database setup
 
-Apply the SQL in `supabase/migrations/`, in order (`0001_init.sql`,
-`0002_district_rates.sql`, `0003_booking_pickup_district.sql`,
-`0004_booking_notification_fields.sql`), and then `supabase/seed.sql`, via
+Apply the SQL in `supabase/migrations/`, in order (`0001_init.sql` through
+`0006_track_rate_limit_function.sql`), and then `supabase/seed.sql`, via
 the Supabase SQL Editor (or `supabase db push` / `psql` if you have the
 Supabase CLI linked or a direct connection string). There's no Prisma
-migration step — these are plain Postgres DDL/DML files.
+migration step — these are plain Postgres DDL/DML files. Check
+`supabase/migrations/` itself for the current list before assuming this
+README is up to date — it's easy for a new migration to outpace this
+paragraph.
 
 If a query starts failing right after applying a migration with an error
 like `Could not find the '<column>' column of '<table>' in the schema
@@ -325,6 +328,8 @@ npm run create-staff-user -- "staff@example.com" "a-strong-password" "Full Name"
 - `src/app/booking/` — the online booking flow
 - `src/app/admin/` — staff dashboard (auth-protected)
 - `src/app/track/` — public booking-status lookup
+- `src/app/api/webhooks/paystack/` — the only Route Handler in the app;
+  everything else is a Server Component or Server Action
 - `src/components/{ui,site,booking,admin}/` — shared UI, split by area
 - `src/lib/supabase/` — Supabase client helpers (see architecture note above)
 - `supabase/migrations/`, `supabase/seed.sql` — database schema and seed data

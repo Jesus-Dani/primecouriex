@@ -54,7 +54,7 @@ alongside those, not instead of them.
   `<main>` landmark on the standalone staff login page).
 - **NDPR**: consent capture (above), a 24-month retention statement and
   named-DPO section in the Privacy Policy (DPO contact is an explicit,
-  clearly-marked placeholder — see "Open items" below), a documented
+  clearly-marked placeholder — see "Before going live" below), a documented
   breach-notification paragraph, and `booking_status_history` doubling
   as the access/change audit trail per TRD §10.2.
 - **Admin dashboard** expanded from a single booking queue into a
@@ -79,6 +79,9 @@ alongside those, not instead of them.
   own hosted page, since its bot-detection blocks headless browser
   automation — everything up to and including that page, and
   everything from the webhook onward, is verified.
+
+## What's not done
+
 - **Google Maps distance pricing (PRD §10.1, TRD §5)** — dormant, not
   wired into the live booking flow, since pricing was switched to the
   district-rate model per client instruction. `GOOGLE_MAPS_SERVER_KEY`/
@@ -169,3 +172,7 @@ environment regardless.
       exposes every customer's contact details and legal case
       information. See README's "Staff accounts" section for exactly
       what to change if it needs tightening.
+- [ ] Review `staff_users` for dev/test accounts before launch — a
+      `staff-test@primecouriex.ng` ("Test Staff") row exists from early
+      in the build and doesn't look like a real hire; confirm with the
+      client whether it's still needed before removing it.
